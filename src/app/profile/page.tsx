@@ -1,4 +1,4 @@
-import ProfileInfo from "@/components/Profile/ProfileInfo";
+import ProfileInfo from "@/components/ProfilePage/ProfileInfo";
 import { Grid, Box } from "@mui/material";
 import { userInfo } from "@/data/userInfo";
 
