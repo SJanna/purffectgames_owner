@@ -8,6 +8,7 @@ import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import PhoneIcon from "@mui/icons-material/Phone";
 import Stack from "@mui/material/Stack";
+import Image from "next/image";
 
 function Copyright() {
   return (
@@ -54,10 +55,11 @@ export default function Footer() {
         }}
       >
         <Stack  sx={{ marginLeft: '2vw', alignItems:'center' }} direction="row" spacing={1}>
-        <img
+        <Image
           alt="Logo"
           src="/static/images/PurrfectGamesAdim_Logo.png"
           width={50}
+          height={50}
         />
         <Box>
           <Typography variant="body1">

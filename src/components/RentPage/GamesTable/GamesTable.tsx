@@ -1,4 +1,3 @@
-"use client";
 import React, { useState } from "react";
 import {
   type MRT_Row,
@@ -12,12 +11,12 @@ import {
   MRT_ToggleFiltersButton,
   MRT_ToolbarAlertBanner,
 } from "material-react-table";
-import { Box, Button, IconButton, Tooltip, Typography } from "@mui/material";
+import { Box, IconButton, Tooltip, Typography } from "@mui/material";
 import { Game } from "@/types/Game";
 import EditModal from "@/components/RentPage/GamesTable/components/EditModal";
 import CreateModal from "@/components/RentPage/GamesTable/components/CreateModal";
 import RowActions from "@/components/RentPage/GamesTable/components/RowActions";
-import setColumns from "@/components/RentPage/GamesTable/utils/setColumns";
+import useSetColumns from "@/components/RentPage/GamesTable/utils/useSetColumns";
 import useCreateGame from "@/components/RentPage/GamesTable/hooks/useCreateGame";
 import useDeleteGame from "@/components/RentPage/GamesTable/hooks/useDeleteGame";
 import useGetGames from "@/components/RentPage/GamesTable/hooks/useGetGames";
@@ -26,20 +25,19 @@ import AddIcon from "@mui/icons-material/Add";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import { validateGame } from "./utils/validateGame";
-import {games} from "@/data/games";
 
+type GamesTableProps = {
+  setSelectedGames: React.Dispatch<React.SetStateAction<Game[]>>;
+};
 
-const GamesTable = () => {
-
-  const [SelectedGames, setSelectedGames] = useState<Game[]>([]);
-
+const GamesTable = React.memo(({ setSelectedGames }: GamesTableProps) => {
   // Validation errors
   const [validationErrors, setValidationErrors] = useState<
     Record<string, string | undefined>
   >({});
 
   // Table columns
-  const columns = setColumns({ validationErrors, setValidationErrors });
+  const columns = useSetColumns({ validationErrors, setValidationErrors });
 
   //call CREATE hook
   const { mutateAsync: createGame, isPending: isCreatingGame } =
@@ -106,36 +104,38 @@ const GamesTable = () => {
 
   const table = useMaterialReactTable({
     columns,
-    // data: fetchedGames,
-    data : games,
+    data: fetchedGames,
     createDisplayMode: "modal",
     editDisplayMode: "modal",
     enableEditing: true,
     positionActionsColumn: "last",
-    selectAllMode: "all",
-    enableRowSelection: true,     
+    enableSelectAll: false,
+    enableRowSelection: true,
+    enableFacetedValues: true,
     muiCircularProgressProps: {
       thickness: 5,
       size: 55,
       color: "secondary",
     },
+
     // To get the selected rows to write down the table
-    muiSelectCheckboxProps:({table}) => ({
+    muiSelectCheckboxProps: ({ table }) => ({
       onInput: () => {
-          const rows = table.getSelectedRowModel().rows.map((row) => row.original)
-          setSelectedGames(rows)
+        const selectedRows = table
+          .getSelectedRowModel()
+          .rows.map((row) => row.original);
+        setSelectedGames(selectedRows);
       },
     }),
-    muiSkeletonProps: {
-      animation: "pulse",
-      height: 28,
-      variant: "rounded",
-    },
     initialState: {
       showGlobalFilter: true,
-      // showSkeletons: false,
+      showSkeletons: false,
       columnVisibility: {
         image: false,
+      },
+      pagination: {
+        pageIndex: 0,
+        pageSize: 5,
       },
     },
     // getRowId: (row) => row.id,
@@ -169,7 +169,9 @@ const GamesTable = () => {
   });
 
   return (
-    <Box sx={{ border: "gray 2px dashed", padding: "16px" }}>
+    <Box
+     sx={{ border: "gray 2px solid", borderRadius:'10px', boxShadow: 1, "&:hover": { boxShadow: 5 }, padding: 2 }}
+     >
       {/* Our Custom External Top Toolbar */}
       <Box
         sx={(theme) => ({
@@ -191,18 +193,6 @@ const GamesTable = () => {
               <RefreshIcon />
             </IconButton>
           </Tooltip>
-          <Button
-            color="primary"
-            onClick={() => {
-              // SelectedGames(table.getSelectedRowModel().rows);
-            }}
-            disabled={
-              !table.getIsSomeRowsSelected() && !table.getIsAllRowsSelected()
-            }
-            variant="contained"
-          >
-            Rent Selected games
-          </Button>
         </Box>
         <MRT_GlobalFilterTextField table={table} />
         <Box sx={{ display: "flex", alignItems: "center", gap: "8px" }}>
@@ -222,6 +212,9 @@ const GamesTable = () => {
           // "Hey I'm some page content. I'm just one of your normal components between your custom toolbar and the MRT Table below"
         }
       </Typography>
+      <Box sx={{ display: "grid", width: "100%" }}>
+        <MRT_ToolbarAlertBanner stackAlertBanner table={table} />
+      </Box>
       {/* The MRT Table with no toolbars built-in */}
       <MRT_TableContainer table={table} />
       {/* Our Custom Bottom Toolbar */}
@@ -253,21 +246,9 @@ const GamesTable = () => {
           <MRT_TablePagination table={table} />
         </Box>
       </Box>
-      <Box sx={{ display: "grid", width: "100%" }}>
-        <MRT_ToolbarAlertBanner stackAlertBanner table={table} />
-      </Box>
     </Box>
   );
-};
+});
 
-// const queryClient = new QueryClient();
-
-// const TableWrapper = () => {
-//   return (
-//     // <QueryClientProvider client={queryClient}>
-//       <Table />
-//     // </QueryClientProvider>
-//   );
-// };
-
+GamesTable.displayName = "GamesTable";
 export default GamesTable;

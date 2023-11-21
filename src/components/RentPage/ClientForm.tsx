@@ -9,7 +9,7 @@ import {
   MenuItem,
 } from "@mui/material";
 
-export default function ClientForm() {
+const ClientForm = React.memo(()=> {
   return (
     <Box sx={{ bgcolor: "background.paper"}}>
       <Box sx={{ my: 2 }}>
@@ -72,10 +72,11 @@ export default function ClientForm() {
             label="ID Type"
             variant="outlined"
             size="small"
-          >
-            <MenuItem value="passport">Passport</MenuItem>
-            <MenuItem value="driversLicense">Driver's License</MenuItem>
-            <MenuItem value="stateId">State ID</MenuItem>
+            value="stateId"
+          > 
+            <MenuItem key='passport' value="passport">Passport</MenuItem>
+            <MenuItem key='driversLicense' value="driversLicense">Driver License</MenuItem>
+            <MenuItem key='stateId' value="stateId">State ID</MenuItem>
           </Select>
         </Grid>
         <Grid item xs={12} sm={7} md={7} lg={7}>
@@ -152,4 +153,7 @@ export default function ClientForm() {
       </Grid>
     </Box>
   );
-}
+});
+
+ClientForm.displayName = "ClientForm";
+export default ClientForm;

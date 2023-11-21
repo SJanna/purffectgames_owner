@@ -1,5 +1,4 @@
-"use client";
-import { UserInfo } from "@/types/UserInfo";
+import { Client } from "@/types/Client";
 import {
   Box,
   Typography,
@@ -13,10 +12,10 @@ import {
 import React from "react";
 
 type ProfileInfoProps = {
-  userInfo: UserInfo;
+  client: Client;
 };
 
-export default function ProfileInfo({ userInfo }: ProfileInfoProps) {
+export default function ProfileInfo({ client }: ProfileInfoProps) {
   const [edit, setEdit] = React.useState(false);
 
   return (
@@ -29,17 +28,16 @@ export default function ProfileInfo({ userInfo }: ProfileInfoProps) {
           alt="Profile Picture"
         />
         <CardContent sx={{ justifyContent: "center", textAlign:"center" }}>
-          {/* If edit true change typograby for texfield */}
           {!edit ? (
             <Typography gutterBottom variant="h5" component="div">
-              {userInfo.name}
+              {client.first_name} {client.last_name}
             </Typography>
           ) : (
             <TextField
               id="name"
               label=""
               variant="standard"
-              value={userInfo.name}
+              value={client.first_name + " " + client.last_name}
             />
           )}
           <Box sx={{ my: 4 }} />
@@ -55,7 +53,7 @@ export default function ProfileInfo({ userInfo }: ProfileInfoProps) {
                 id="email"
                 label=""
                 variant="standard"
-                value={userInfo.email}
+                value={client.email}
                 disabled={!edit}
               />
             </Grid>
@@ -69,7 +67,7 @@ export default function ProfileInfo({ userInfo }: ProfileInfoProps) {
                 id="phone"
                 label=""
                 variant="standard"
-                value={userInfo.phone}
+                value={client.phone}
                 disabled={!edit}
               />
             </Grid>
@@ -83,7 +81,7 @@ export default function ProfileInfo({ userInfo }: ProfileInfoProps) {
                 id="address"
                 label=""
                 variant="standard"
-                value={userInfo.address}
+                value={client.address}
                 disabled={!edit}
               />
             </Grid>
@@ -97,12 +95,11 @@ export default function ProfileInfo({ userInfo }: ProfileInfoProps) {
                 id="age"
                 label=""
                 variant="standard"
-                value={userInfo.age}
+                value={client.birth_date}
                 disabled={!edit}
               />
             </Grid>
           </Grid>
-          {/* Edit button and save button (Disabled if edit = false) */}
           <Box sx={{ my: 4 }} />
           <Grid container spacing={1} justifyContent="center">
             <Grid item xs={4}>

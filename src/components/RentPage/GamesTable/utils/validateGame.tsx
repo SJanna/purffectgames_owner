@@ -25,21 +25,27 @@ export function validateGame(game: Game) {
   if (!game.productor) {
     errors.productor = "Productor is required";
   }
-  if (!game.releaseDate) {
+  if (!game.release_date) {
     errors.year = "Year is required";
-  } else if (isNaN(Date.parse(game.releaseDate))) {
+  } else if (isNaN(Date.parse(game.release_date))) {
     errors.year = "Year must be a valid date";
   }
   if (!game.popularity) {
     errors.popularity = "Popularity is required";
   }
-  if (!game.img) {
+  if (!game.image) {
     errors.image = "Image is required";
   }
   if (!game.price) {
     errors.price = "Price is required";
+  } else if (isNaN(game.price)) {
+    errors.price = "Price must be a number";
   }
-
+  if (!game.stock) {
+    errors.stock = "Stock is required";
+  } else if (isNaN(game.stock)) {
+    errors.stock = "Stock must be a number";
+  }
   return errors;
 }
 

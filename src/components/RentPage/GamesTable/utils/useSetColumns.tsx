@@ -1,7 +1,10 @@
 import { useMemo, useState } from "react";
 import { Game } from "@/types/Game";
-import { Box } from "@mui/material";
+import { Box, Tooltip, Typography } from "@mui/material";
 import { MRT_ColumnDef } from "material-react-table";
+import Image from "next/image";
+// import { platforms } from "@/data/platforms";
+// import { genres } from "@/data/genres";
 
 type columnsProps = {
   validationErrors: Record<string, string | undefined>;
@@ -10,11 +13,11 @@ type columnsProps = {
   >;
 };
 
-const setColumns = ({
+const useSetColumns = ({
   validationErrors,
   setValidationErrors,
 }: columnsProps) => {
-  const columns = useMemo<MRT_ColumnDef<Game>[]>(
+  const Columns = useMemo<MRT_ColumnDef<Game>[]>(
     () => [
       {
         header: "ID",
@@ -41,34 +44,97 @@ const setColumns = ({
               name: undefined,
             }),
         },
-        Cell: ({ renderedCellValue, row }) => (
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              gap: 2,
-            }}
-          >
-            <img alt={row.original.title} height={60} src={row.original.img} />
-            <span>{renderedCellValue}</span>
+        filterVariant: "autocomplete",
+        Cell: ({ row }) => (
+          <Box sx={{ display: "flex", flexDirection: "row" }}>
+            <Tooltip title={row.original.title} placement="top">
+              <Image
+                src={row.original.image}
+                alt={row.original.title}
+                style={{
+                  width: 40,
+                  height: 40,
+                  marginRight: 10,
+                  borderRadius: 5,
+                  objectFit: "cover",
+                }}
+              />
+            </Tooltip>
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                whiteSpace: "nowrap",
+              }}
+            >
+              <Typography variant="body2">{row.original.title}</Typography>
+            </Box>
           </Box>
         ),
       },
       {
-        header:"Price",
-        accessorKey:"price",
+        header: "Genre",
+        accessorKey: "genre",
+        muiEditTextFieldProps: {
+          required: true,
+          error: !!validationErrors?.genre,
+          helperText: validationErrors?.genre,
+          variant: "outlined",
+          onFocus: () =>
+            setValidationErrors({
+              ...validationErrors,
+              genre: undefined,
+            }),
+        },
+        columnFilterModeOptions: ["fuzzy"],
+        filterVariant: "multi-select",
+        // filterSelectOptions: genres.map((genre) => ({
+        //   value: genre,
+        //   label: genre,
+        // })),
+      },
+      {
+        header: "Price",
+        accessorKey: "price",
         muiEditTextFieldProps: {
           required: true,
           error: !!validationErrors?.price,
           helperText: validationErrors?.price,
           variant: "outlined",
         },
+        filterVariant: "range",
+        Cell: ({ renderedCellValue }) => (
+          <Box
+            sx={{
+              maxWidth: "200px",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              whiteSpace: "nowrap",
+            }}
+          >
+            ${renderedCellValue}.00
+          </Box>
+        ),
+      },
+      {
+        header: "Stock",
+        accessorKey: "stock",
+        muiEditTextFieldProps: {
+          required: true,
+          error: !!validationErrors?.stock,
+          helperText: validationErrors?.stock,
+          variant: "outlined",
+        },
+        filterVariant: "range",
       },
       {
         header: "Image Url",
         enableClickToCopy: true,
         maxSize: 250,
-        accessorKey: "img",
+        accessorKey: "image",
         enableGlobalFilter: false,
         enableColumnActions: false,
         enableSorting: false,
@@ -98,10 +164,11 @@ const setColumns = ({
         ),
       },
       {
+        accessorFn: (originalRow) => new Date(originalRow.release_date),
         header: "release Date",
-        accessorKey: "releaseDate",
+        accessorKey: "release_date",
         maxSize: 100,
-        filterVariant: "range",
+        filterVariant: "date-range",
         muiEditTextFieldProps: {
           required: true,
           error: !!validationErrors?.year,
@@ -112,8 +179,9 @@ const setColumns = ({
               ...validationErrors,
               year: undefined,
             }),
-          type: "number",
+          type: "date",
         },
+        Cell: ({ cell }) => cell.getValue<Date>().toLocaleDateString(),
       },
       {
         header: "Protagonist",
@@ -130,6 +198,7 @@ const setColumns = ({
               protagonist: undefined,
             }),
         },
+        filterVariant: "autocomplete",
       },
       {
         header: "Director",
@@ -146,6 +215,7 @@ const setColumns = ({
               director: undefined,
             }),
         },
+        filterVariant: "autocomplete",
       },
       {
         header: "Productor",
@@ -162,6 +232,7 @@ const setColumns = ({
               productor: undefined,
             }),
         },
+        filterVariant: "autocomplete",
       },
       {
         header: "Platform",
@@ -175,16 +246,11 @@ const setColumns = ({
         },
         columnFilterModeOptions: ["fuzzy"],
         filterVariant: "multi-select",
-        filterSelectOptions: [
-          { value: "PlayStation 4 | PS4", label: "PS4" },
-          { value: "PS5", label: "PS5" },
-          { value: "Xbox One", label: "XBOX" },
-          {
-            value: "PC",
-            label: "PC",
-          },
-          { value: "NINTENDO", label: "NINTENDO" },
-        ],
+
+        // filterSelectOptions: platforms.map((platform) => ({
+        //   value: platform,
+        //   label: platform,
+        // })),
       },
       {
         header: "Popularity",
@@ -195,12 +261,13 @@ const setColumns = ({
           helperText: validationErrors?.popularity,
           variant: "outlined",
         },
-      }
+        filterVariant: "range",
+      },
     ],
-    [validationErrors]
+    [validationErrors, setValidationErrors]
   );
 
-  return columns;
+  return Columns;
 };
 
-export default setColumns;
+export default useSetColumns;

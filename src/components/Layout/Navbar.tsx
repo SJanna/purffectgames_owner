@@ -11,15 +11,17 @@ import {
 } from "@mui/material";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import Link from "next/link";
+import Image from "next/image";
 
 const LogoName = () => {
   return (
     <Box sx={{ display: "flex", alignItems: "center" }}>
       <Link href="/">
-        <img
+        <Image
           alt="Logo"
           src="/static/images/PurrfectGamesAdim_Logo.png"
           width={50}
+          height={50}
         />
       </Link>
       <Link href="/" style={{ textDecoration: "none", color: "inherit" }}>
@@ -50,10 +52,21 @@ const NavbarIcons = () => {
 const NavbarButtons = () => {
   return (
     <ButtonGroup variant="text" color="inherit">
+      <Link href="/" style={{ textDecoration: "none", color: "inherit" }}>
       <Button>Home</Button>
+      </Link>
+      <Link href="/rent" style={{ textDecoration: "none", color: "inherit" }}>
       <Button>Rent</Button>
+      </Link>
+      <Link href="/clients" style={{ textDecoration: "none", color: "inherit" }}>
       <Button>Clients</Button>
+      </Link>
+      <Link href="/rentals" style={{ textDecoration: "none", color: "inherit" }}>
+      <Button>Rentals</Button>
+      </Link>
+      <Link href="/metrics" style={{ textDecoration: "none", color: "inherit" }}>
       <Button>Metrics</Button>
+      </Link>
     </ButtonGroup>
   );
 };

@@ -15,6 +15,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
 import { Game } from "@/types/Game";
 import GameCardDetails from "@/components/GameCard/GameCardDetails";
+import Image from "next/image";
 
 type CartItemProps = {
   cartItem: Game;
@@ -22,10 +23,10 @@ type CartItemProps = {
 
 export default function CartItem(cartItem: CartItemProps) {
   const today = dayjs();
+  const maxQuantity = cartItem.cartItem.stock;
 
   return (
-    // Image and at the right side the name of the game and the platform
-    <LocalizationProvider dateAdapter={AdapterDayjs}>
+    <React.Fragment>
       {/* Center contend Horizontal */}
       <Grid container spacing={2} sx={{ textAlign: "right" }}>
         <Grid item xs={4} sm={4} md={3} lg={5} textAlign={"left"}>
@@ -49,15 +50,15 @@ export default function CartItem(cartItem: CartItemProps) {
             label="Quantity"
             variant="standard"
           >
-            <MenuItem value={1}>1</MenuItem>
-            <MenuItem value={2}>2</MenuItem>
-            <MenuItem value={3}>3</MenuItem>
-            <MenuItem value={4}>4</MenuItem>
-            <MenuItem value={5}>5</MenuItem>
+            {[...Array(maxQuantity)].map((_, index) => (
+              <MenuItem key={index} value={index + 1}>
+                {index + 1}
+              </MenuItem>
+            ))}
           </Select>
         </Grid>
       </Grid>
-    </LocalizationProvider>
+    </React.Fragment>
   );
 }
 
@@ -69,10 +70,12 @@ const Item = ({ cartItem }: CartItemProps) => {
   return (
     <Box sx={{ display: "flex", flexDirection: "row" }}>
       <Tooltip title={cartItem.title} placement="top">
-      <img
-        src={cartItem.img}
+      <Image
+        src={cartItem.image}
         alt={cartItem.title}
-        style={{ width: 40, height: 40, marginRight: 10, borderRadius: 5, objectFit: "cover", cursor: "pointer" }}
+        width={40}
+        height={40}
+        style={{marginRight: 10, borderRadius: 5, objectFit: "cover", cursor: "pointer" }}
         onClick={handleOpen}
       />
       </Tooltip>

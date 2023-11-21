@@ -1,6 +1,8 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Game } from "@/types/Game";
 
+const apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL + "/api/clients/";
+
 function useUpdateGame() {
   const queryClient = useQueryClient();
   return useMutation({

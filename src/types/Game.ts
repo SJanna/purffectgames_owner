@@ -1,13 +1,14 @@
 export type Game = {
   id: number;
   title: string;
-  platform: string;
-  genre: string;
-  director: string;
-  protagonist: string;
-  productor: string;
-  releaseDate: string;
-  popularity: number;
-  img: string;
   price: number;
+  stock: number;
+  image: string;
+  release_date: string;
+  protagonist: string;
+  director: string;
+  productor: string;
+  platform: string;
+  popularity: number;
+  genre: string;
 };

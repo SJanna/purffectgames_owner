@@ -2,9 +2,13 @@ import React from "react";
 import CartDetails from "@/components/RentPage/CartDetails";
 import ClientForm from "@/components/RentPage/ClientForm";
 import { Box, Grid, Button } from "@mui/material";
-import { cartItems } from "@/data/cartItems";
+import { Game } from "@/types/Game";
 
-export default function RentInfo() {
+type RentInfoProps = {
+  cartItems: Game[];
+};
+
+const RentInfo= React.memo(({cartItems}:RentInfoProps)=> {
   return (
     <Grid container spacing={2} direction="column" justifyContent="center">
       <Grid item xs={12}>
@@ -16,9 +20,12 @@ export default function RentInfo() {
       <Box sx={{ my: 2 }} />
       <Grid item xs={12}>
         <Button variant="contained" size="large" color="primary" fullWidth>
-          Book Games
+          Rent Games
         </Button>
       </Grid>
     </Grid>
   );
-}
+});
+
+RentInfo.displayName = "RentInfo";
+export default RentInfo;

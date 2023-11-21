@@ -1,34 +1,22 @@
 export const platforms = [
-    {
-        id: 1,
-        name: "PlayStation 4",
-    },
-    {
-        id: 2,
-        name: "PlayStation 5",
-    },
-    {
-        id: 3,
-        name: "Xbox One",
-    },
-    {
-        id: 4,
-        name: "Xbox Series X",
-    },
-    {
-        id: 5,
-        name: "Nintendo Switch",
-    },
-    {
-        id: 6,
-        name: "PC",
-    },
-    {
-        id: 7,
-        name: "Nintendo 64",
-    },
-    {
-      id: 8,
-      name: "PlayStation 3",
-    },
+  "PlayStation 2",
+  "Nintendo DS",
+  "Game Boy/Game Boy Color",
+  "PlayStation 4",
+  "Nintendo Switch",
+  "PlayStation",
+  "Nintendo Wii",
+  "PlayStation 3",
+  "Xbox 360",
+  "Nintendo Entertainment System",
+  "Xbox One",
+  "Game Boy Advance",
+  "PlayStation Portable",
+  "Nintendo 3DS",
+  "PlayStation 5",
+  "Xbox Series X/S",
+  "Nintendo GameCube",
+  "Xbox",
+  "Atari 2600",
+  "Sega Genesis",
 ];

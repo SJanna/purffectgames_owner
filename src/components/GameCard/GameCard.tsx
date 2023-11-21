@@ -9,14 +9,14 @@ type GameCardProps = {
   game: Game;
 };
 
-function GameCard({ game }: GameCardProps) {
+const GameCard = React.memo(({ game }: GameCardProps) => {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
   return (
     <>
-      <Box sx={gameCardStyle(game.img)} onClick={handleOpen}>
+      <Box sx={gameCardStyle(game.image)} onClick={handleOpen}>
         <Typography
           variant="body1"
           component="p"
@@ -35,7 +35,9 @@ function GameCard({ game }: GameCardProps) {
       <GameCardDetails open={open} handleClose={handleClose} game={game} />
     </>
   );
-}
+});
+
+GameCard.displayName = "GameCard";
 
 export default GameCard;
 
