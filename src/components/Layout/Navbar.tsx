@@ -77,14 +77,14 @@ function Navbar() {
   return (
     <AppBar position="sticky" sx={{ backgroundColor: "primary.main" }}>
       <Toolbar>
-        <Grid container spacing={2} direction="row" alignItems="center">
-          <Grid item xs={3} sm={3} md={4} lg={4} textAlign={"left"}>
+        <Grid container spacing={2} alignItems="center">
+          <Grid item xs={1.5} sm={2} md={2} lg={2} textAlign={"left"}>
             <LogoName />
           </Grid>
-          <Grid item xs={5} sm={5} md={4} lg={4} textAlign={"center"}>
+          <Grid item xs={9} sm={8} md={8} lg={8} textAlign={"center"}>
             <NavbarButtons />
           </Grid>
-          <Grid item xs={4} sm={4} md={4} lg={4} textAlign={"right"}>
+          <Grid item xs={1.5} sm={2} md={2} lg={2} textAlign={"right"}>
             <NavbarIcons />
           </Grid>
         </Grid>

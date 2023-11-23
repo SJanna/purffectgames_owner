@@ -31,7 +31,7 @@ const GameCardDetail = React.memo(({game}: GameCardDetailsProps) => {
         <Typography gutterBottom variant="h5" component="div">
           {game.title}
         </Typography>
-        <Grid container spacing={1}>
+        <Grid container spacing={1} justifyContent="center" textAlign="left">
           <Grid item xs={6}>
             <Typography variant="body2" color="text.secondary">
               Platform:

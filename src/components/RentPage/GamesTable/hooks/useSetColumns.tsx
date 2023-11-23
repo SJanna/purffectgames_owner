@@ -25,7 +25,6 @@ const useSetColumns = ({
         size: 100,
         enableEditing: false,
         muiEditTextFieldProps: {
-          variant: "outlined",
           disabled: true,
         },
       },
@@ -37,7 +36,6 @@ const useSetColumns = ({
           required: true,
           error: !!validationErrors?.name,
           helperText: validationErrors?.name,
-          variant: "outlined",
           onFocus: () =>
             setValidationErrors({
               ...validationErrors,
@@ -84,7 +82,6 @@ const useSetColumns = ({
           required: true,
           error: !!validationErrors?.genre,
           helperText: validationErrors?.genre,
-          variant: "outlined",
           onFocus: () =>
             setValidationErrors({
               ...validationErrors,
@@ -105,7 +102,6 @@ const useSetColumns = ({
           required: true,
           error: !!validationErrors?.price,
           helperText: validationErrors?.price,
-          variant: "outlined",
         },
         filterVariant: "range",
         Cell: ({ renderedCellValue }) => (
@@ -128,15 +124,15 @@ const useSetColumns = ({
           required: true,
           error: !!validationErrors?.stock,
           helperText: validationErrors?.stock,
-          variant: "outlined",
         },
         filterVariant: "range",
       },
       {
         header: "Rented times",
         accessorKey: "rented_times",
+        size: 100,
+        enableEditing: false,
         muiEditTextFieldProps: {
-          variant: "outlined",
           disabled: true,
         },
         filterVariant: "range",
@@ -153,7 +149,6 @@ const useSetColumns = ({
           required: true,
           error: !!validationErrors?.image,
           helperText: validationErrors?.image,
-          variant: "outlined",
           onFocus: () =>
             setValidationErrors({
               ...validationErrors,
@@ -184,7 +179,6 @@ const useSetColumns = ({
           required: true,
           error: !!validationErrors?.year,
           helperText: validationErrors?.year,
-          variant: "outlined",
           onFocus: () =>
             setValidationErrors({
               ...validationErrors,
@@ -202,7 +196,6 @@ const useSetColumns = ({
           required: true,
           error: !!validationErrors?.protagonist,
           helperText: validationErrors?.protagonist,
-          variant: "outlined",
           onFocus: () =>
             setValidationErrors({
               ...validationErrors,
@@ -219,7 +212,6 @@ const useSetColumns = ({
           required: true,
           error: !!validationErrors?.director,
           helperText: validationErrors?.director,
-          variant: "outlined",
           onFocus: () =>
             setValidationErrors({
               ...validationErrors,
@@ -236,7 +228,6 @@ const useSetColumns = ({
           required: true,
           error: !!validationErrors?.productor,
           helperText: validationErrors?.productor,
-          variant: "outlined",
           onFocus: () =>
             setValidationErrors({
               ...validationErrors,
@@ -253,7 +244,6 @@ const useSetColumns = ({
           required: true,
           error: !!validationErrors?.platform,
           helperText: validationErrors?.platform,
-          variant: "outlined",
         },
         columnFilterModeOptions: ["fuzzy"],
         filterVariant: "multi-select",
@@ -270,7 +260,6 @@ const useSetColumns = ({
           required: true,
           error: !!validationErrors?.popularity,
           helperText: validationErrors?.popularity,
-          variant: "outlined",
         },
         filterVariant: "range",
       },

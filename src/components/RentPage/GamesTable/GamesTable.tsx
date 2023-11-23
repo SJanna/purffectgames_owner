@@ -110,7 +110,7 @@ const GamesTable = React.memo(({ setSelectedGames }: GamesTableProps) => {
     columns,
     data: fetchedGames,
     createDisplayMode: "modal",
-    editDisplayMode: "modal",
+    editDisplayMode: "row",
     enableEditing: true,
     positionActionsColumn: "last",
     enableSelectAll: false,

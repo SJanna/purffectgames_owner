@@ -144,13 +144,13 @@ const ClientForm = React.memo(
               }
               defaultValue="passport"
             >
-              <MenuItem key="passport" value="passport">
+              <MenuItem key="Passport" value="Passport">
                 Passport
               </MenuItem>
-              <MenuItem key="driversLicense" value="driversLicense">
+              <MenuItem key="DNI" value="DNI">
                 Driver License
               </MenuItem>
-              <MenuItem key="stateId" value="stateId">
+              <MenuItem key="NEI" value="NEI">
                 State ID
               </MenuItem>
             </Select>

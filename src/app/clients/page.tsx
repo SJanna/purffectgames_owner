@@ -1,13 +1,15 @@
-import React from 'react'
-import PageTitle from '@/components/ClientsPage/PageTitle';
-import ClientsTable from '@/components/ClientsPage/ClientsTable/ClientsTable';
-import { Box } from '@mui/material';
+'use client'
+import React from "react";
+import PageTitle from "@/components/ClientsPage/PageTitle";
+import ClientsTable from "@/components/ClientsPage/ClientsTable/ClientsTable";
+import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 
 export default function Clients() {
+  const queryClient = new QueryClient();
   return (
-    <Box>
+    <QueryClientProvider client={queryClient}>
       <PageTitle />
       <ClientsTable />
-    </Box>
-  )
+    </QueryClientProvider>
+  );
 }

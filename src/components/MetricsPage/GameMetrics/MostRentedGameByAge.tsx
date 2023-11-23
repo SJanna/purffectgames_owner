@@ -67,14 +67,11 @@ export default function MostRentedGameByAge() {
         justifyContent="center"
         textAlign="center"
       >
-        <Grid item xs={12} sm={4} md={4}>
-          <Typography variant="h5" component="h1" gutterBottom>
-            Most rented game by age
-          </Typography>
+        <Grid item xs={3} sm={2}>
           <Box sx={{ mt: 5 }} />
           <form onSubmit={handleSubmit}>
-            <Grid container spacing={2}>
-              <Grid item xs={6} sm={12} md={6}>
+            <Grid container spacing={1}>
+              <Grid item xs={12}>
                 <TextField
                   required
                   id="min_age"
@@ -94,12 +91,12 @@ export default function MostRentedGameByAge() {
                   }}
                 />
               </Grid>
-              <Grid item xs={6} sm={12} md={6}>
+              <Grid item xs={12}>
                 <TextField
                   required
-                  id="min_age"
-                  name="min_age"
-                  label="Min Age"
+                  id="max_age"
+                  name="max_age"
+                  label="Max Age"
                   fullWidth
                   value={ageRange.age_range.max_age || ""}
                   onChange={(e) => {
@@ -116,22 +113,34 @@ export default function MostRentedGameByAge() {
               </Grid>
             </Grid>
             <Box sx={{ height: 10 }} />
-            <Grid container spacing={2} justifyContent="center">
-              <Grid item xs={10}>
+            <Grid container spacing={2}>
+              <Grid item xs={12}>
                 <Button
                   type="submit"
-                  variant="outlined"
+                  variant="contained"
                   color="primary"
                   fullWidth
                 >
-                  Submit
+                  Show
                 </Button>
               </Grid>
             </Grid>
           </form>
         </Grid>
-        <Grid item xs={12} sm={8} md={8} sx={{ boxShadow: 30 }}>
-          {mostRentedGameByAge && <GameCardDetail game={mostRentedGameByAge} />}
+        <Grid item xs={9} sm={10} sx={{ boxShadow: 30 }}>
+          {mostRentedGameByAge?.id ? (
+            <React.Fragment>
+              <GameCardDetail game={mostRentedGameByAge} />
+            </React.Fragment>
+          ) : ageRange.age_range.min_age && ageRange.age_range.max_age ? (
+            mostRentedGameByAge ? (
+              <Typography variant="h6">No game found</Typography>
+            ) : (
+              <Typography variant="h6">Press show to see the game</Typography>
+            )
+          ) : (
+            <Typography variant="h6">Select a range of ages</Typography>
+          )}
         </Grid>
       </Grid>
     </React.Fragment>
