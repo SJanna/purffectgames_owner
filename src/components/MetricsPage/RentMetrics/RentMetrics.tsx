@@ -4,10 +4,13 @@ import RentalsByGenreChart from "@/components/MetricsPage/RentMetrics/RentalsByG
 import RentalsOverTimeChart from "@/components/MetricsPage/RentMetrics/RentalsOverTimeChart";
 import DailySalesChart from "@/components/MetricsPage/RentMetrics/DailySalesChart";
 import { ChartTypeRegistry } from "chart.js/auto";
-import { Grid, ButtonGroup, Button, Box } from "@mui/material";
+import { Grid, ButtonGroup, Button, Box, TextField } from "@mui/material";
 import SetChartTypeButtonGroup from "@/components/MetricsPage/SetChartTypeButtonGroup";
 import { Game } from "@/types/Game";
 import { Rental } from "@/types/Rental";
+import dayjs from "dayjs";
+import { LocalizationProvider, DatePicker } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
 type GameMetricsProps = {
   games: Game[];
@@ -24,8 +27,11 @@ export default function GameMetrics({
   setChartType,
   renderCount,
 }: GameMetricsProps) {
-  //bar, line, scatter, bubble, pie, doughnut, polarArea, radar
   const [metric, setMetric] = useState("over_time");
+  const [startDate, setStartDate] = useState<dayjs.Dayjs>(
+    dayjs().subtract(1, "week")
+  );
+  const [endDate, setEndDate] = useState<dayjs.Dayjs>(dayjs());
 
   return (
     <React.Fragment>
@@ -96,11 +102,37 @@ export default function GameMetrics({
             />
           )}
           {metric === "daily_sales" && (
-            <DailySalesChart
-              key={renderCount}
-              chartType={chartType}
-              rentals={rentals}
-            />
+            <Grid container spacing={2}>
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <Grid item xs={6}>
+                  <DatePicker
+                    label="Fecha de inicio"
+                    value={startDate}
+                    slotProps={{ textField: { size: "small" } }}
+                    onChange={(date) =>
+                      date && setStartDate(date as dayjs.Dayjs)
+                    }
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <DatePicker
+                    label="Fecha de fin"
+                    value={endDate}
+                    slotProps={{ textField: { size: "small" } }}
+                    onChange={(date) => date && setEndDate(date as dayjs.Dayjs)}
+                  />
+                </Grid>
+              </LocalizationProvider>
+              <Grid item xs={12}>
+                <DailySalesChart
+                  key={renderCount}
+                  chartType={chartType}
+                  rentals={rentals}
+                  startDate={startDate}
+                  endDate={endDate}
+                />
+              </Grid>
+            </Grid>
           )}
         </Grid>
       </Grid>

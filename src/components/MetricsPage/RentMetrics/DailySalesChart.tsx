@@ -1,22 +1,40 @@
 // components/MetricsPage/SaleMetrics/SalesTodayChart.tsx
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Chart, { ChartTypeRegistry } from "chart.js/auto";
 import { ChartConfiguration } from "chart.js/auto";
 import { Rental } from "@/types/Rental";
+import { Box } from "@mui/material";
+import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import dayjs from "dayjs";
 
 type DailySalesChartProps = {
   chartType: keyof ChartTypeRegistry;
   rentals: Rental[];
+  startDate: dayjs.Dayjs;
+  endDate: dayjs.Dayjs;
 };
 
-const DailySalesChart = ({ chartType, rentals }: DailySalesChartProps) => {
+const DailySalesChart = ({
+  chartType,
+  rentals,
+  startDate,
+  endDate,
+}: DailySalesChartProps) => {
   const chartRef = useRef(null);
 
   useEffect(() => {
     if (rentals.length === 0) return;
 
     // Lógica para procesar las rentas y calcular las ventas diarias
-    const sortedRentals = [...rentals].sort((a, b) => {
+    const filteredRentals = rentals.filter((rental) => {
+      if (!startDate || !endDate) return true;
+      const rentalDate = dayjs(rental.rental_date);
+
+      return rentalDate >= startDate && rentalDate <= endDate;
+    });
+
+    const sortedRentals = [...filteredRentals].sort((a, b) => {
       return (
         new Date(a.rental_date).getTime() - new Date(b.rental_date).getTime()
       );
@@ -70,7 +88,7 @@ const DailySalesChart = ({ chartType, rentals }: DailySalesChartProps) => {
     return () => {
       myChart.destroy();
     };
-  }, [rentals, chartType]);
+  }, [rentals, chartType, startDate, endDate]);
 
   return <canvas ref={chartRef}></canvas>;
 };
