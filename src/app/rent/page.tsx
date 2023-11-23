@@ -11,9 +11,6 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 export default function Rent() {
   const queryClient = new QueryClient();
   const [selectedGames, setSelectedGames] = useState<Game[]>([]);
-  if (!selectedGames) {
-    return <div>Loading...</div>;
-  }
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>

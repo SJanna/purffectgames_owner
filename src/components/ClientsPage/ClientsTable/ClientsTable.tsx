@@ -7,7 +7,8 @@ import {
 } from "material-react-table";
 import { Client } from "@/types/Client";
 import { useGetClients } from "@/hooks/useGetClients";
-import { Chip } from "@mui/material";
+import { Alert, Chip } from "@mui/material";
+import React from "react";
 
 const ClientsTable = () => {
   const data = useGetClients();
@@ -101,27 +102,26 @@ const ClientsTable = () => {
     columns,
     data,
     enableEditing: true,
-    editDisplayMode: 'row',
+    editDisplayMode: "row",
     initialState: {
       pagination: {
         pageIndex: 0,
         pageSize: 5,
       },
     },
-    muiToolbarAlertBannerProps: data?.length === 0 
-      ? {
-          color: 'error',
-          children: 'Error loading data',
-        }
-      : undefined,
     muiTableContainerProps: {
       sx: {
-        minHeight: '500px',
+        minHeight: "500px",
       },
     },
   });
 
-  return <MaterialReactTable table={table} />;
+  return (
+    <React.Fragment>
+      {/* {data.length == 0 && <Alert severity="error">Error loading data</Alert>} */}
+      <MaterialReactTable table={table} />
+    </React.Fragment>
+  );
 };
 
 export default ClientsTable;

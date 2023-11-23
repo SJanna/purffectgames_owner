@@ -2,7 +2,7 @@
 import { Typography, Box } from "@mui/material";
 import { useState } from "react";
 import { Game } from "@/types/Game";
-import GameCardDetails from "@/components/GameCard/GameCardDetails";
+import GameCardDetailsModal from "@/components/GameCard/GameCardDetailsModal";
 import React from "react";
 
 type GameCardProps = {
@@ -32,7 +32,7 @@ const GameCard = React.memo(({ game }: GameCardProps) => {
           {game.title}
         </Typography>
       </Box>
-      <GameCardDetails open={open} handleClose={handleClose} game={game} />
+      <GameCardDetailsModal open={open} handleClose={handleClose} game={game} />
     </>
   );
 });

@@ -49,15 +49,17 @@ const useSetColumns = ({
           <Box sx={{ display: "flex", flexDirection: "row" }}>
             <Tooltip title={row.original.title} placement="top">
               <Image
-                src={row.original.image}
-                alt={row.original.title}
+                src={row.original?.image || "/static/images/placeholder.png"}
+                alt={row.original?.title || "placeholder"}
+                width={40}
+                height={40}
                 style={{
-                  width: 40,
-                  height: 40,
                   marginRight: 10,
                   borderRadius: 5,
                   objectFit: "cover",
                 }}
+                placeholder="blur"
+                blurDataURL="/static/images/placeholder.png"
               />
             </Tooltip>
             <Box
@@ -131,6 +133,15 @@ const useSetColumns = ({
         filterVariant: "range",
       },
       {
+        header: "Rented times",
+        accessorKey: "rented_times",
+        muiEditTextFieldProps: {
+          variant: "outlined",
+          disabled: true,
+        },
+        filterVariant: "range",
+      },
+      {
         header: "Image Url",
         enableClickToCopy: true,
         maxSize: 250,
@@ -164,7 +175,7 @@ const useSetColumns = ({
         ),
       },
       {
-        accessorFn: (originalRow) => new Date(originalRow.release_date),
+        // accessorFn: (originalRow) => new Date(originalRow.release_date),
         header: "release Date",
         accessorKey: "release_date",
         maxSize: 100,
@@ -181,7 +192,7 @@ const useSetColumns = ({
             }),
           type: "date",
         },
-        Cell: ({ cell }) => cell.getValue<Date>().toLocaleDateString(),
+        // Cell: ({ cell }) => cell.getValue<Date>().toLocaleDateString(),
       },
       {
         header: "Protagonist",

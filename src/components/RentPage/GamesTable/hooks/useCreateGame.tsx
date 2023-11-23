@@ -1,13 +1,15 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Game } from "@/types/Game";
 
+const apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL + "/api/games/"
+
 function useCreateGame() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (game: Game) => {
-      console.log(game);
+      // console.log(game);
       //send api update request here
-      await fetch("http://localhost:8000/api/games/", {
+      await fetch(apiUrl, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

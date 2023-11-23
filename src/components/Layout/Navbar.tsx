@@ -4,7 +4,6 @@ import {
   Toolbar,
   IconButton,
   Typography,
-  Stack,
   ButtonGroup,
   Button,
   Grid,
@@ -22,6 +21,9 @@ const LogoName = () => {
           src="/static/images/PurrfectGamesAdim_Logo.png"
           width={50}
           height={50}
+          priority={true}
+          placeholder="blur"
+          blurDataURL="/static/images/placeholder.png"
         />
       </Link>
       <Link href="/" style={{ textDecoration: "none", color: "inherit" }}>

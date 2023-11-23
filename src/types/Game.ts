@@ -11,4 +11,6 @@ export type Game = {
   platform: string;
   popularity: number;
   genre: string;
+  quantity: number;
+  rented_times: number;
 };

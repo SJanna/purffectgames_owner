@@ -60,6 +60,8 @@ export default function Footer() {
           src="/static/images/PurrfectGamesAdim_Logo.png"
           width={50}
           height={50}
+          placeholder="blur"
+          blurDataURL="/static/images/placeholder.png"
         />
         <Box>
           <Typography variant="body1">

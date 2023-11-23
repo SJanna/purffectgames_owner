@@ -11,6 +11,7 @@ import {
   MRT_TableInstance,
 } from "material-react-table";
 import { Game } from "@/types/Game";
+import React from "react";
 
 type CreateModalProps = {
   table: MRT_TableInstance<Game>;
@@ -23,27 +24,25 @@ const CreateModal = ({
   row,
   internalEditComponents,
 }: CreateModalProps) => (
-  // Center the title:
-  // add
-  <>
+  <React.Fragment>
     <DialogTitle variant="h5" sx={{ textAlign: "center" }}>
       Add game
     </DialogTitle>
-    <Divider variant="middle"/>
-      <DialogContent
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          gap: "2rem",
-          p: "1",
-        }}
-      >
-      {internalEditComponents} {/* or render custom edit components here */}
+    <Divider variant="middle" />
+    <DialogContent
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        gap: "2rem",
+        p: "1",
+      }}
+    >
+      {internalEditComponents}
     </DialogContent>
     <DialogActions>
       <MRT_EditActionButtons variant="text" table={table} row={row} />
     </DialogActions>
-  </>
+  </React.Fragment>
 );
 
 export default CreateModal;

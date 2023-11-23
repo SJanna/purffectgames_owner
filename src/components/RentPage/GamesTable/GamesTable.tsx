@@ -16,7 +16,7 @@ import { Game } from "@/types/Game";
 import EditModal from "@/components/RentPage/GamesTable/components/EditModal";
 import CreateModal from "@/components/RentPage/GamesTable/components/CreateModal";
 import RowActions from "@/components/RentPage/GamesTable/components/RowActions";
-import useSetColumns from "@/components/RentPage/GamesTable/utils/useSetColumns";
+import useSetColumns from "@/components/RentPage/GamesTable/hooks/useSetColumns";
 import useCreateGame from "@/components/RentPage/GamesTable/hooks/useCreateGame";
 import useDeleteGame from "@/components/RentPage/GamesTable/hooks/useDeleteGame";
 import useGetGames from "@/components/RentPage/GamesTable/hooks/useGetGames";
@@ -32,9 +32,7 @@ type GamesTableProps = {
 
 const GamesTable = React.memo(({ setSelectedGames }: GamesTableProps) => {
   // Validation errors
-  const [validationErrors, setValidationErrors] = useState<
-    Record<string, string | undefined>
-  >({});
+  const [validationErrors, setValidationErrors] = useState({});
 
   // Table columns
   const columns = useSetColumns({ validationErrors, setValidationErrors });
@@ -43,9 +41,11 @@ const GamesTable = React.memo(({ setSelectedGames }: GamesTableProps) => {
   const { mutateAsync: createGame, isPending: isCreatingGame } =
     useCreateGame();
 
+  let fetchedGames: Game[] = [];
+
   //call READ hook
   const {
-    data: fetchedGames = [],
+    data: fetchedGamesData,
     isError: isLoadingGamesError,
     isFetching: isFetchingGames,
     isLoading: isLoadingGames,
@@ -65,8 +65,8 @@ const GamesTable = React.memo(({ setSelectedGames }: GamesTableProps) => {
     table,
   }) => {
     const newValidationErrors = validateGame(values);
-    console.log("newValidationErrors", newValidationErrors);
-    console.log("values", values);
+    // console.log("newValidationErrors", newValidationErrors);
+    // console.log("values", values);
     if (Object.values(newValidationErrors).some((error) => error)) {
       setValidationErrors(newValidationErrors);
       return;
@@ -88,19 +88,23 @@ const GamesTable = React.memo(({ setSelectedGames }: GamesTableProps) => {
     }
     setValidationErrors({});
     await updateGame(values);
-    table.setEditingRow(null); //exit editing mode
+    table.setEditingRow(null);
   };
 
   //DELETE action
   const openDeleteConfirmModal = (row: MRT_Row<Game>) => {
     if (
       window.confirm(
-        `Are you sure you want to delete ${row.original.title}? \nThis game will be deleted permanently.`
+        `Are you sure you want to delete ${row.original?.title}? \nThis game will be deleted permanently.`
       )
     ) {
-      deleteGame(row.original.id);
+      deleteGame(row.original?.id);
     }
   };
+
+  if (fetchedGamesData) {
+    fetchedGames = fetchedGamesData;
+  }
 
   const table = useMaterialReactTable({
     columns,
@@ -112,18 +116,18 @@ const GamesTable = React.memo(({ setSelectedGames }: GamesTableProps) => {
     enableSelectAll: false,
     enableRowSelection: true,
     enableFacetedValues: true,
-    muiCircularProgressProps: {
-      thickness: 5,
-      size: 55,
-      color: "secondary",
-    },
+    // muiCircularProgressProps: {
+    //   thickness: 5,
+    //   size: 55,
+    //   color: "secondary",
+    // },
 
     // To get the selected rows to write down the table
     muiSelectCheckboxProps: ({ table }) => ({
       onInput: () => {
         const selectedRows = table
           .getSelectedRowModel()
-          .rows.map((row) => row.original);
+          .rows.map((row) => row?.original);
         setSelectedGames(selectedRows);
       },
     }),
@@ -141,10 +145,11 @@ const GamesTable = React.memo(({ setSelectedGames }: GamesTableProps) => {
     // getRowId: (row) => row.id,
     muiToolbarAlertBannerProps: isLoadingGamesError
       ? {
-          color: "error",
-          children: "Error loading data",
+          color: 'error',
+          children: 'Error loading data',
         }
       : undefined,
+
     muiTableContainerProps: {
       sx: {
         minHeight: "500px",
@@ -170,11 +175,17 @@ const GamesTable = React.memo(({ setSelectedGames }: GamesTableProps) => {
 
   return (
     <Box
-     sx={{ border: "gray 2px solid", borderRadius:'10px', boxShadow: 1, "&:hover": { boxShadow: 5 }, padding: 2 }}
-     >
+      sx={{
+        border: "gray 2px solid",
+        borderRadius: "10px",
+        boxShadow: 1,
+        "&:hover": { boxShadow: 5 },
+        padding: 2,
+      }}
+    >
       {/* Our Custom External Top Toolbar */}
       <Box
-        sx={(theme) => ({
+        sx={() => ({
           display: "flex",
           backgroundColor: "inherit",
           borderRadius: "4px",
@@ -228,7 +239,8 @@ const GamesTable = React.memo(({ setSelectedGames }: GamesTableProps) => {
                     `Are you sure you want to set table Defaults? \nThis will reset all table settings to default.`
                   )
                 ) {
-                  table.resetColumnFilters(), table.resetColumnVisibility();
+                  table.resetColumnFilters();
+                  table.resetColumnVisibility();
                   table.resetGlobalFilter();
                   table.resetPagination();
                   table.resetSorting();

@@ -6,10 +6,10 @@ import {
   type MRT_ColumnDef,
 } from "material-react-table";
 import { useGetRentals } from "@/hooks/useGetRentals";
-import { Chip } from "@mui/material";
+import { Alert, Chip } from "@mui/material";
 import { Rental } from "@/types/Rental";
 import React from "react";
-import GameCardDetails from "@/components/GameCard/GameCardDetails";
+import GameCardDetailsModal from "@/components/GameCard/GameCardDetailsModal";
 import { Game } from "@/types/Game";
 
 const RentalsTable = () => {
@@ -110,8 +110,9 @@ const RentalsTable = () => {
 
   return (
     <React.Fragment>
+      {/* {data.length == 0 && <Alert severity="error">Error loading data</Alert>} */}
       <MaterialReactTable table={table} />
-      <GameCardDetails open={open} handleClose={handleClose} game={game} />
+      <GameCardDetailsModal open={open} handleClose={handleClose} game={game} />
     </React.Fragment>
   );
 };

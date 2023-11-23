@@ -1,4 +1,3 @@
-"use client";
 import React, { useState } from "react";
 import {
   Box,
@@ -7,51 +6,48 @@ import {
   Select,
   MenuItem,
   Tooltip,
-  Divider,
 } from "@mui/material";
-import { DatePicker } from "@mui/x-date-pickers";
-import { LocalizationProvider } from "@mui/x-date-pickers";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import dayjs from "dayjs";
 import { Game } from "@/types/Game";
-import GameCardDetails from "@/components/GameCard/GameCardDetails";
+import GameCardDetailsModal from "@/components/GameCard/GameCardDetailsModal";
 import Image from "next/image";
 
 type CartItemProps = {
   cartItem: Game;
+  setNewCartItems: React.Dispatch<React.SetStateAction<Game[]>>;
 };
 
-export default function CartItem(cartItem: CartItemProps) {
-  const today = dayjs();
-  const maxQuantity = cartItem.cartItem.stock;
+export default function CartItem({ cartItem, setNewCartItems }: CartItemProps) {
+  const maxQuantity = cartItem.stock;
 
   return (
     <React.Fragment>
-      {/* Center contend Horizontal */}
       <Grid container spacing={2} sx={{ textAlign: "right" }}>
-        <Grid item xs={4} sm={4} md={3} lg={5} textAlign={"left"}>
-          <Item cartItem={cartItem.cartItem} />
+        <Grid item xs={8} sm={8} md={8} lg={7} textAlign={"left"}>
+          <Item game={cartItem} />
         </Grid>
-        <Grid item xs={2} sm={2} md={3} lg={2}>
-          <Typography variant="body2">${cartItem.cartItem.price}.00</Typography>
-        </Grid>
-        <Grid item xs={4} sm={4} md={4} lg={3}>
-          <DatePicker
-            sx={{ maxWidth: "150px" }}
-            value={today}
-            minDate={today}
-            slotProps={{ textField: { size: "small", variant: "standard" } }}
-          />
+        <Grid item xs={2} sm={2} md={2} lg={3}>
+          <Typography variant="body2">
+            ${(cartItem.price * (cartItem.quantity)).toFixed(2)}
+          </Typography>
         </Grid>
         <Grid item xs={2} sm={2} md={2} lg={2}>
           <Select
-            // value={1}
-            defaultValue={1}
+            value={cartItem.quantity}
             label="Quantity"
             variant="standard"
+            fullWidth
+            onChange={(e) => {
+              setNewCartItems((prev) =>
+                prev.map((item) =>
+                  item.id === cartItem.id
+                    ? { ...item, quantity: parseInt(e.target.value.toString(), 10) }
+                    : item
+                )
+              );
+            }}
           >
             {[...Array(maxQuantity)].map((_, index) => (
-              <MenuItem key={index} value={index + 1}>
+              <MenuItem key={index + 1} value={index + 1}>
                 {index + 1}
               </MenuItem>
             ))}
@@ -61,23 +57,32 @@ export default function CartItem(cartItem: CartItemProps) {
     </React.Fragment>
   );
 }
-
-const Item = ({ cartItem }: CartItemProps) => {
+type ItemProps = {
+  game: Game;
+};
+const Item = ({ game }: ItemProps) => {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
   return (
     <Box sx={{ display: "flex", flexDirection: "row" }}>
-      <Tooltip title={cartItem.title} placement="top">
-      <Image
-        src={cartItem.image}
-        alt={cartItem.title}
-        width={40}
-        height={40}
-        style={{marginRight: 10, borderRadius: 5, objectFit: "cover", cursor: "pointer" }}
-        onClick={handleOpen}
-      />
+      <Tooltip title={game.title} placement="top">
+        <Image
+          src={game.image}
+          alt={game.title}
+          width={40}
+          height={40}
+          style={{
+            marginRight: 10,
+            borderRadius: 5,
+            objectFit: "cover",
+            cursor: "pointer",
+          }}
+          onClick={handleOpen}
+          placeholder="blur"
+          blurDataURL="/static/images/placeholder.png"
+        />
       </Tooltip>
       <Box
         sx={{
@@ -89,13 +94,9 @@ const Item = ({ cartItem }: CartItemProps) => {
           whiteSpace: "nowrap",
         }}
       >
-        {/* Cut the title to max 10 characters */}
-
-        <Typography variant="body2">
-          {cartItem.title}
-        </Typography>
+        <Typography variant="body2">{game.title}</Typography>
       </Box>
-      <GameCardDetails open={open} handleClose={handleClose} game={cartItem} />
+      <GameCardDetailsModal open={open} handleClose={handleClose} game={game} />
     </Box>
   );
 };

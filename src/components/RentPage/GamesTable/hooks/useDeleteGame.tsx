@@ -1,12 +1,14 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Game } from "@/types/Game";
 
+const apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL + "/api/games/"
+
 function useDeleteGame() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (gameId: number) => {
       //send api update request here
-      await fetch(`http://localhost:8000/api/games/${gameId}/`, {
+      await fetch(`${apiUrl+gameId}/`, {
         method: "DELETE",
       });
     },
