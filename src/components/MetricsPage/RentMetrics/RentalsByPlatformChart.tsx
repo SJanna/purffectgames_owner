@@ -1,15 +1,18 @@
 // components/MetricsPage/GameMetrics/RentalsByPlatformChart.tsx
 import React, { useEffect, useRef } from "react";
 import Chart, { ChartOptions, ChartTypeRegistry } from "chart.js/auto";
-import { useGetGames } from "@/hooks/useGetGames";
 import { ChartConfiguration } from "chart.js/auto";
+import { Game } from "@/types/Game";
 
 type RentalsByPlatformChartProps = {
   chartType: keyof ChartTypeRegistry;
+  games: Game[];
 };
 
-const RentalsByPlatformChart = ({ chartType }: RentalsByPlatformChartProps) => {
-  const games = useGetGames();
+const RentalsByPlatformChart = ({
+  chartType,
+  games,
+}: RentalsByPlatformChartProps) => {
   const chartRef = useRef(null);
 
   useEffect(() => {
@@ -59,7 +62,9 @@ const RentalsByPlatformChart = ({ chartType }: RentalsByPlatformChartProps) => {
       ],
     };
 
-    const ctx = (chartRef.current as HTMLCanvasElement | null)?.getContext("2d");
+    const ctx = (chartRef.current as HTMLCanvasElement | null)?.getContext(
+      "2d"
+    );
     if (!ctx) return;
 
     const config: ChartConfiguration<typeof chartType, number[], string> = {
@@ -77,7 +82,7 @@ const RentalsByPlatformChart = ({ chartType }: RentalsByPlatformChartProps) => {
               maxWidth: 50,
             },
           },
-        } as ChartOptions["plugins"]
+        } as ChartOptions["plugins"],
       },
     };
 

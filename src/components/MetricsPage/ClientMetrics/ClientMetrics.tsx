@@ -1,40 +1,31 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useState } from "react";
 import CityStateChart from "@/components/MetricsPage/ClientMetrics/CityStateChart";
 import IdTypeChart from "@/components/MetricsPage/ClientMetrics/IdTypeChart";
 import AgeChart from "@/components/MetricsPage/ClientMetrics/AgeChart";
+import MostRentedClientChart from "./MostRentedClientChart";
 import { ChartTypeRegistry } from "chart.js/auto";
-import { Grid, ButtonGroup, Button, Box } from "@mui/material";
+import { Grid, ButtonGroup, Button, Box, TextField } from "@mui/material";
 import SetChartTypeButtonGroup from "@/components/MetricsPage/SetChartTypeButtonGroup";
+import { Client } from "@/types/Client";
+import { Rental } from "@/types/Rental";
 
-export default function ClientMetrics() {
-  //bar, line, scatter, bubble, pie, doughnut, polarArea, radar
-  const [chartType, setChartType] = useState<keyof ChartTypeRegistry>("bar");
+type ClientMetricsProps = {
+  clients: Client[];
+  rentals: Rental[];
+  chartType: keyof ChartTypeRegistry;
+  setChartType: React.Dispatch<React.SetStateAction<keyof ChartTypeRegistry>>;
+  renderCount: number;
+};
+
+export default function ClientMetrics({
+  clients,
+  rentals,
+  chartType,
+  setChartType,
+  renderCount,
+}: ClientMetricsProps) {
   const [metric, setMetric] = useState("age");
-
-  const [renderCount, setRenderCount] = useState(0);
-  const prevWindowWidth = useRef(window.innerWidth);
-
-  useEffect(() => {
-    const handleResize = () => {
-      const currentWindowWidth = window.innerWidth;
-
-      // Verificar si el tamaño de la pantalla ha aumentado
-      if (currentWindowWidth > prevWindowWidth.current) {
-        // Incrementar el contador para forzar un nuevo renderizado
-        setRenderCount((prevCount) => prevCount + 1);
-      }
-
-      // Actualizar el tamaño anterior de la ventana
-      prevWindowWidth.current = currentWindowWidth;
-    };
-
-    window.addEventListener("resize", handleResize);
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
-
+  const [topClientsCount, setTopClientsCount] = useState<number>(5);
 
   return (
     <React.Fragment>
@@ -68,26 +59,63 @@ export default function ClientMetrics() {
             >
               ID Type
             </Button>
+            <Button
+              onClick={() => setMetric("most_rented")}
+              disabled={metric === "most_rented"}
+            >
+              Most Rented
+            </Button>
           </ButtonGroup>
         </Grid>
       </Grid>
-      <Box sx={{height: '5%'}} />
+      <Box sx={{ height: "5%" }} />
       <Grid container spacing={2}>
-        <Grid item xs={12} md={2} sx={{marginTop: 4}} >
+        <Grid item xs={12} md={2} sx={{ marginTop: 4 }}>
           <SetChartTypeButtonGroup
             chartType={chartType}
             setChartType={setChartType}
           />
         </Grid>
-        <Grid item xs={12} md={10} maxHeight={500} sx={{overflow: 'auto'}}>
+        <Grid item xs={12} md={10} maxHeight={500} sx={{ overflow: "auto" }}>
           {metric === "age" && (
-            <AgeChart key={renderCount} chartType={chartType} />
+            <AgeChart
+              key={renderCount}
+              chartType={chartType}
+              clients={clients}
+            />
           )}
           {metric === "city_state" && (
-            <CityStateChart key={renderCount} chartType={chartType} />
+            <CityStateChart
+              key={renderCount}
+              chartType={chartType}
+              clients={clients}
+            />
           )}
           {metric === "id_type" && (
-            <IdTypeChart key={renderCount} chartType={chartType} />
+            <IdTypeChart
+              key={renderCount}
+              chartType={chartType}
+              clients={clients}
+            />
+          )}
+          {metric === "most_rented" && (
+            <React.Fragment>
+              <TextField
+                label="Top Clientes"
+                type="number"
+                value={topClientsCount}
+                size="small"
+                onChange={(e) => setTopClientsCount(Number(e.target.value))}
+                InputProps={{ inputProps: { min: 1 } }}
+              />
+              <MostRentedClientChart
+                key={renderCount}
+                chartType={chartType}
+                clients={clients}
+                rentals={rentals}
+                topClientsCount={topClientsCount}
+              />
+            </React.Fragment>
           )}
         </Grid>
       </Grid>

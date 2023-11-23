@@ -1,15 +1,18 @@
 // components/MetricsPage/GameMetrics/RentalsByGenreChart.tsx
 import React, { useEffect, useRef } from "react";
 import Chart, { ChartTypeRegistry } from "chart.js/auto";
-import { useGetGames } from "@/hooks/useGetGames";
 import { ChartConfiguration } from "chart.js/auto";
+import { Game } from "@/types/Game";
 
 type RentalsByGenreChartProps = {
   chartType: keyof ChartTypeRegistry;
+  games: Game[];
 };
 
-const RentalsByGenreChart = ({ chartType }: RentalsByGenreChartProps) => {
-  const games = useGetGames();
+const RentalsByGenreChart = ({
+  chartType,
+  games,
+}: RentalsByGenreChartProps) => {
   const chartRef = useRef(null);
 
   useEffect(() => {
@@ -25,7 +28,9 @@ const RentalsByGenreChart = ({ chartType }: RentalsByGenreChartProps) => {
     }, {} as { [key: string]: number });
 
     const data = {
-      labels: Object.keys(rentalsByGenre).map((genre) => genre.substring(0, 15)),
+      labels: Object.keys(rentalsByGenre).map((genre) =>
+        genre.substring(0, 15)
+      ),
       datasets: [
         {
           label: "Rentas por Plataforma",
@@ -59,7 +64,9 @@ const RentalsByGenreChart = ({ chartType }: RentalsByGenreChartProps) => {
       ],
     };
 
-    const ctx = (chartRef.current as HTMLCanvasElement | null)?.getContext("2d");
+    const ctx = (chartRef.current as HTMLCanvasElement | null)?.getContext(
+      "2d"
+    );
     if (!ctx) return;
 
     const config: ChartConfiguration<typeof chartType, number[], string> = {

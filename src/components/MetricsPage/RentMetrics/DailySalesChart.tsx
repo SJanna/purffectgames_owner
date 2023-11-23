@@ -1,47 +1,45 @@
-// components/MetricsPage/GameMetrics/RentalsOverTimeChart.tsx
+// components/MetricsPage/SaleMetrics/SalesTodayChart.tsx
 import React, { useEffect, useRef } from "react";
 import Chart, { ChartTypeRegistry } from "chart.js/auto";
 import { ChartConfiguration } from "chart.js/auto";
 import { Rental } from "@/types/Rental";
 
-type RentalsOverTimeChartProps = {
+type DailySalesChartProps = {
   chartType: keyof ChartTypeRegistry;
   rentals: Rental[];
 };
 
-const RentalsOverTimeChart = ({
-  chartType,
-  rentals,
-}: RentalsOverTimeChartProps) => {
+const DailySalesChart = ({ chartType, rentals }: DailySalesChartProps) => {
   const chartRef = useRef(null);
 
   useEffect(() => {
     if (rentals.length === 0) return;
 
-    // Ordenar las fechas de forma ascendente
-    const sortedRentals = [...rentals].sort(
-      (a, b) =>
+    // Lógica para procesar las rentas y calcular las ventas diarias
+    const sortedRentals = [...rentals].sort((a, b) => {
+      return (
         new Date(a.rental_date).getTime() - new Date(b.rental_date).getTime()
-    );
+      );
+    });
 
-    const rentalsOverTime = sortedRentals.reduce((acc, curr) => {
-      const rentalDate = new Date(curr.rental_date);
-      const monthYear = `${
-        rentalDate.getMonth() + 1
-      }/${rentalDate.getFullYear()}`;
+    const salesData = sortedRentals.reduce((acc, rental) => {
+      const date = new Date(rental.rental_date).toLocaleDateString();
 
-      return {
-        ...acc,
-        [monthYear]: (acc[monthYear] || 0) + 1,
-      };
+      if (!acc[date]) {
+        acc[date] = 0;
+      }
+
+      acc[date] += rental.price;
+
+      return acc;
     }, {} as { [key: string]: number });
 
     const data = {
-      labels: Object.keys(rentalsOverTime),
+      labels: Object.keys(salesData),
       datasets: [
         {
-          label: "Rentals Over Time",
-          data: Object.values(rentalsOverTime),
+          label: "Daily Sales",
+          data: Object.values(salesData),
           backgroundColor: "rgba(75, 192, 192, 0.5)",
           borderColor: "rgba(75, 192, 192, 1)",
           borderWidth: 1,
@@ -60,7 +58,7 @@ const RentalsOverTimeChart = ({
       options: {
         scales: {
           y: {
-            beginAtZero: false,
+            beginAtZero: true,
           },
         },
       },
@@ -77,4 +75,4 @@ const RentalsOverTimeChart = ({
   return <canvas ref={chartRef}></canvas>;
 };
 
-export default RentalsOverTimeChart;
+export default DailySalesChart;

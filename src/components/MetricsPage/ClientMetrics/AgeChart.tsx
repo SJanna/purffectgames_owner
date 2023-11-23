@@ -1,15 +1,15 @@
 // pages/client-metrics.tsx
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import Chart, { ChartTypeRegistry } from "chart.js/auto";
-import { useGetClients } from "@/hooks/useGetClients";
 import { ChartConfiguration } from "chart.js/auto";
+import { Client } from "@/types/Client";
 
 type ageChartProps = {
   chartType: keyof ChartTypeRegistry;
+  clients: Client[];
 };
 
-const AgeChart = ({ chartType }: ageChartProps) => {
-  const clients = useGetClients();
+const AgeChart = ({ chartType, clients }: ageChartProps) => {
   const chartRefAge = useRef(null);
 
   useEffect(() => {
@@ -53,7 +53,7 @@ const AgeChart = ({ chartType }: ageChartProps) => {
             "rgba(205, 92, 92, 0.5)",
             "rgba(0, 128, 128, 0.5)",
             "rgba(128, 0, 128, 0.5)",
-            "rgba(0, 128, 0, 0.5)"
+            "rgba(0, 128, 0, 0.5)",
           ],
           borderColor: [
             "rgba(255, 99, 132, 1)",
@@ -65,7 +65,7 @@ const AgeChart = ({ chartType }: ageChartProps) => {
             "rgba(205, 92, 92, 1)",
             "rgba(0, 128, 128, 1)",
             "rgba(128, 0, 128, 1)",
-            "rgba(0, 128, 0, 1)"
+            "rgba(0, 128, 0, 1)",
           ],
           borderWidth: 1,
         },

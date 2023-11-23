@@ -1,40 +1,31 @@
-// pages/game-metrics.tsx
-import React, { useEffect, useRef, useState } from "react";
+import React, { useState } from "react";
 import RentalsByPlatformChart from "@/components/MetricsPage/RentMetrics/RentalsByPlatformChart";
 import RentalsByGenreChart from "./RentalsByGenreChart";
 import RentalsOverTimeChart from "./RentalsOverTimeChart";
+import DailySalesChart from "./DailySalesChart";
 import { ChartTypeRegistry } from "chart.js/auto";
 import { Grid, ButtonGroup, Button, Box } from "@mui/material";
 import SetChartTypeButtonGroup from "@/components/MetricsPage/SetChartTypeButtonGroup";
+import { Game } from "@/types/Game";
+import { Rental } from "@/types/Rental";
 
-export default function GameMetrics() {
+type GameMetricsProps = {
+  games: Game[];
+  rentals: Rental[];
+  chartType: keyof ChartTypeRegistry;
+  setChartType: React.Dispatch<React.SetStateAction<keyof ChartTypeRegistry>>;
+  renderCount: number;
+};
+
+export default function GameMetrics({
+  games,
+  rentals,
+  chartType,
+  setChartType,
+  renderCount,
+}: GameMetricsProps) {
   //bar, line, scatter, bubble, pie, doughnut, polarArea, radar
-  const [chartType, setChartType] = useState<keyof ChartTypeRegistry>("bar");
   const [metric, setMetric] = useState("over_time");
-
-  const [renderCount, setRenderCount] = useState(0);
-  const prevWindowWidth = useRef(window.innerWidth);
-
-  useEffect(() => {
-    const handleResize = () => {
-      const currentWindowWidth = window.innerWidth;
-
-      // Verificar si el tamaño de la pantalla ha aumentado
-      if (currentWindowWidth > prevWindowWidth.current) {
-        // Incrementar el contador para forzar un nuevo renderizado
-        setRenderCount((prevCount) => prevCount + 1);
-      }
-
-      // Actualizar el tamaño anterior de la ventana
-      prevWindowWidth.current = currentWindowWidth;
-    };
-
-    window.addEventListener("resize", handleResize);
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
 
   return (
     <React.Fragment>
@@ -65,6 +56,12 @@ export default function GameMetrics() {
             >
               Genre
             </Button>
+            <Button
+              onClick={() => setMetric("daily_sales")}
+              disabled={metric === "daily_sales"}
+            >
+              Daily Sales
+            </Button>
           </ButtonGroup>
         </Grid>
       </Grid>
@@ -78,13 +75,32 @@ export default function GameMetrics() {
         </Grid>
         <Grid item xs={12} md={10} maxHeight={500} sx={{ overflow: "auto" }}>
           {metric === "over_time" && (
-            <RentalsOverTimeChart key={renderCount} chartType={chartType} />
+            <RentalsOverTimeChart
+              key={renderCount}
+              chartType={chartType}
+              rentals={rentals}
+            />
           )}
           {metric === "by_platform" && (
-            <RentalsByPlatformChart key={renderCount} chartType={chartType} />
+            <RentalsByPlatformChart
+              key={renderCount}
+              chartType={chartType}
+              games={games}
+            />
           )}
           {metric === "by_gendre" && (
-            <RentalsByGenreChart key={renderCount} chartType={chartType} />
+            <RentalsByGenreChart
+              key={renderCount}
+              chartType={chartType}
+              games={games}
+            />
+          )}
+          {metric === "daily_sales" && (
+            <DailySalesChart
+              key={renderCount}
+              chartType={chartType}
+              rentals={rentals}
+            />
           )}
         </Grid>
       </Grid>

@@ -1,15 +1,15 @@
 // pages/client-metrics.tsx
 import { useEffect, useRef } from "react";
 import Chart, { ChartTypeRegistry } from "chart.js/auto";
-import { useGetClients } from "@/hooks/useGetClients";
 import { ChartConfiguration } from "chart.js/auto";
+import { Client } from "@/types/Client";
 
 type cityStateChartProps = {
   chartType: keyof ChartTypeRegistry;
+  clients: Client[];
 };
 
-const CityStateChart = ({chartType}:cityStateChartProps) => {
-  const clients = useGetClients();
+const CityStateChart = ({ chartType, clients }: cityStateChartProps) => {
   const chartRefCityState = useRef(null);
 
   useEffect(() => {
@@ -43,7 +43,7 @@ const CityStateChart = ({chartType}:cityStateChartProps) => {
             "rgba(205, 92, 92, 0.5)",
             "rgba(0, 128, 128, 0.5)",
             "rgba(128, 0, 128, 0.5)",
-            "rgba(0, 128, 0, 0.5)"
+            "rgba(0, 128, 0, 0.5)",
           ],
           borderColor: [
             "rgba(255, 99, 132, 1)",
@@ -55,7 +55,7 @@ const CityStateChart = ({chartType}:cityStateChartProps) => {
             "rgba(205, 92, 92, 1)",
             "rgba(0, 128, 128, 1)",
             "rgba(128, 0, 128, 1)",
-            "rgba(0, 128, 0, 1)"
+            "rgba(0, 128, 0, 1)",
           ],
           borderWidth: 1,
         },
@@ -67,8 +67,11 @@ const CityStateChart = ({chartType}:cityStateChartProps) => {
     )?.getContext("2d");
     if (!ctxCityState) return;
 
-
-    const configCityState: ChartConfiguration<typeof chartType, number[], string> = {
+    const configCityState: ChartConfiguration<
+      typeof chartType,
+      number[],
+      string
+    > = {
       type: chartType,
       data: dataCityState,
       options: {

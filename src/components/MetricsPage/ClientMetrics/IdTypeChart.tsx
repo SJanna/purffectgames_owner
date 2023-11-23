@@ -1,15 +1,15 @@
 // pages/client-metrics.tsx
 import { useEffect, useRef } from "react";
 import Chart, { ChartTypeRegistry } from "chart.js/auto";
-import { useGetClients } from "@/hooks/useGetClients";
-import { ChartConfiguration} from "chart.js/auto";
+import { ChartConfiguration } from "chart.js/auto";
+import { Client } from "@/types/Client";
 
 type idTypeChartProps = {
   chartType: keyof ChartTypeRegistry;
+  clients: Client[];
 };
 
-const IdTypeChart = ({chartType}:idTypeChartProps) => {
-  const clients = useGetClients();
+const IdTypeChart = ({ chartType, clients }: idTypeChartProps) => {
   const chartRefIdType = useRef(null);
 
   useEffect(() => {

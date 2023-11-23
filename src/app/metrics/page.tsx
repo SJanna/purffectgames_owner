@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { use, useEffect, useRef, useState } from "react";
 import RentMetrics from "@/components/MetricsPage/RentMetrics/RentMetrics";
 import ClientMetrics from "@/components/MetricsPage/ClientMetrics/ClientMetrics";
 import GameMetrics from "@/components/MetricsPage/GameMetrics/GameMetrics";
@@ -9,11 +9,43 @@ import {
   createTheme,
   responsiveFontSizes,
 } from "@mui/material/styles";
+import { useGetClients } from "@/hooks/useGetClients";
+import { useGetGames } from "@/hooks/useGetGames";
+import { useGetRentals } from "@/hooks/useGetRentals";
+import { ChartTypeRegistry } from "chart.js/auto";
 
 export default function Metrics() {
-  const [metric, setMetric] = React.useState("");
+  const [metric, setMetric] = React.useState("client_metrics");
+  const games = useGetGames();
+  const rentals = useGetRentals();
+  const clients = useGetClients();
+  const [chartType, setChartType] =
+    React.useState<keyof ChartTypeRegistry>("bar");
+
   let theme = createTheme();
   theme = responsiveFontSizes(theme);
+
+  const [renderCount, setRenderCount] = useState(0);
+  const prevWindowWidth = useRef(window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = () => {
+      const currentWindowWidth = window.innerWidth;
+      // Verificar si el tamaño de la pantalla ha aumentado
+      if (currentWindowWidth > prevWindowWidth.current) {
+        // Incrementar el contador para forzar un nuevo renderizado
+        setRenderCount((prevCount) => prevCount + 1);
+      }
+      // Actualizar el tamaño anterior de la ventana
+      prevWindowWidth.current = currentWindowWidth;
+    };
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   return (
     <ThemeProvider theme={theme}>
       <Grid container spacing={1} justifyContent="center" textAlign="center">
@@ -40,9 +72,33 @@ export default function Metrics() {
           </ButtonGroup>
         </Grid>
         <Grid item xs={12}>
-          {metric === "rent_metrics" && <RentMetrics />}
-          {metric === "client_metrics" && <ClientMetrics />}
-          {metric === "game_metrics" && <GameMetrics />}
+          {metric === "rent_metrics" && (
+            <RentMetrics
+              games={games}
+              rentals={rentals}
+              chartType={chartType}
+              setChartType={setChartType}
+              renderCount={renderCount}
+            />
+          )}
+          {metric === "client_metrics" && (
+            <ClientMetrics
+              clients={clients}
+              rentals={rentals}
+              chartType={chartType}
+              setChartType={setChartType}
+              renderCount={renderCount}
+            />
+          )}
+          {metric === "game_metrics" && (
+            <GameMetrics
+              games={games}
+              rentals={rentals}
+              chartType={chartType}
+              setChartType={setChartType}
+              renderCount={renderCount}
+            />
+          )}
         </Grid>
       </Grid>
     </ThemeProvider>

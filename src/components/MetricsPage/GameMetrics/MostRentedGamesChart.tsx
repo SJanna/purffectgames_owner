@@ -1,27 +1,35 @@
 // pages/game-metrics/PopularGamesChart.tsx
-import React, { useEffect, useRef, useState } from "react";
-import { useGetGames } from "@/hooks/useGetGames";
+import React, { useEffect, useRef } from "react";
 import Chart, { ChartTypeRegistry } from "chart.js/auto";
 import { ChartConfiguration } from "chart.js/auto";
-import { ButtonGroup, Button, Box, Typography, TextField } from "@mui/material";
+import { Game } from "@/types/Game";
 
 type PopularGamesChartProps = {
   chartType: keyof ChartTypeRegistry;
+  topGamesCount: number;
+  games: Game[];
 };
 
-const MostRentedGamesChart = ({ chartType }: PopularGamesChartProps) => {
-  const games = useGetGames();
+const MostRentedGamesChart = ({
+  chartType,
+  topGamesCount,
+  games
+}: PopularGamesChartProps) => {
   const chartRef = useRef(null);
-  const [topGamesCount, setTopGamesCount] = useState(10); // Valor predeterminado
 
   useEffect(() => {
     if (games.length === 0) return;
     // Get the most rented games using game.rented_times
-    const topGames = games.map((game) => game.rented_times).sort((a, b) => b - a).slice(0, topGamesCount);
+    const topGames = games
+      .map((game) => game.rented_times)
+      .sort((a, b) => b - a)
+      .slice(0, topGamesCount);
 
     const gamesCounts: { [key: string]: number } = topGames.reduce(
       (acc, curr) => {
-        const game = games.find((game) => game.rented_times === curr && game.rented_times > 0);
+        const game = games.find(
+          (game) => game.rented_times === curr && game.rented_times > 0
+        );
         if (!game) return acc;
 
         return {
@@ -31,9 +39,6 @@ const MostRentedGamesChart = ({ chartType }: PopularGamesChartProps) => {
       },
       {} as { [key: string]: number }
     );
-
-    //Get games name and count
-    const gamesNames = Object.keys(gamesCounts);
 
     const data = {
       //Show count of games and the game name
@@ -52,7 +57,7 @@ const MostRentedGamesChart = ({ chartType }: PopularGamesChartProps) => {
             "rgba(205, 92, 92, 0.5)",
             "rgba(0, 128, 128, 0.5)",
             "rgba(128, 0, 128, 0.5)",
-            "rgba(0, 128, 0, 0.5)"
+            "rgba(0, 128, 0, 0.5)",
           ],
           borderColor: [
             "rgba(255, 99, 132, 1)",
@@ -64,7 +69,7 @@ const MostRentedGamesChart = ({ chartType }: PopularGamesChartProps) => {
             "rgba(205, 92, 92, 1)",
             "rgba(0, 128, 128, 1)",
             "rgba(128, 0, 128, 1)",
-            "rgba(0, 128, 0, 1)"
+            "rgba(0, 128, 0, 1)",
           ],
           borderWidth: 1,
         },
@@ -95,19 +100,7 @@ const MostRentedGamesChart = ({ chartType }: PopularGamesChartProps) => {
     };
   }, [games, chartType, topGamesCount]);
 
-  return (
-    <Box>
-      <TextField
-        label="Top Games Count"
-        type="number"
-        value={topGamesCount}
-        size="small"
-        onChange={(e) => setTopGamesCount(Number(e.target.value))}
-        InputProps={{ inputProps: { min: 1 } }}
-      />
-      <canvas ref={chartRef}></canvas>
-    </Box>
-  );
+  return <canvas ref={chartRef}></canvas>;
 };
 
 export default MostRentedGamesChart;

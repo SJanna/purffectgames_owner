@@ -1,29 +1,25 @@
 // pages/game-metrics/GameRentalsOverTimeChart.tsx
-import React, { useEffect, useRef, useState } from "react";
-import { useGetGames } from "@/hooks/useGetGames";
-import { useGetRentals } from "@/hooks/useGetRentals";
+import React, { useEffect, useRef } from "react";
 import Chart, { ChartTypeRegistry } from "chart.js/auto";
 import { ChartConfiguration } from "chart.js/auto";
-import {
-  ButtonGroup,
-  Button,
-  Box,
-  Typography,
-  Autocomplete,
-  TextField,
-} from "@mui/material";
+import { Game } from "@/types/Game";
+import { Rental } from "@/types/Rental";
 
 type GameRentalsOverTimeChartProps = {
   chartType: keyof ChartTypeRegistry;
+  selectedGame: string | null;
+  games: Game[];
+  rentals: Rental[];
 };
 
 const GameRentalsOverTimeChart = ({
   chartType,
+  selectedGame,
+  games,
+  rentals,
 }: GameRentalsOverTimeChartProps) => {
-  const games = useGetGames();
-  const rentals = useGetRentals();
+
   const chartRef = useRef(null);
-  const [selectedGame, setSelectedGame] = useState<string | null>(null);
 
   useEffect(() => {
     if (!selectedGame || games.length === 0 || rentals.length === 0) return;
@@ -83,29 +79,7 @@ const GameRentalsOverTimeChart = ({
     };
   }, [selectedGame, games, rentals, chartType]);
 
-  const gameOptions = games.map((game) => game.title);
-
-  const rentalsForSelectedGame = rentals.filter((rental) =>
-    rental.games.some((game) => game.title === selectedGame)
-  );
-
-  return (
-    <Box>
-      <Autocomplete
-        options={gameOptions}
-        fullWidth
-        size="small"
-        renderInput={(params) => (
-          <TextField {...params} label="Select a Game" variant="outlined" />
-        )}
-        onChange={(e, value) => {
-          setSelectedGame(value);
-        }}
-      />
-      <Box sx={{ height: "5%" }} />
-      <canvas ref={chartRef} />
-    </Box>
-  );
+  return <canvas ref={chartRef} />;
 };
 
 export default GameRentalsOverTimeChart;
