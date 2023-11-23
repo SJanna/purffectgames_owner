@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import RentalsByPlatformChart from "@/components/MetricsPage/RentMetrics/RentalsByPlatformChart";
-import RentalsByGenreChart from "./RentalsByGenreChart";
-import RentalsOverTimeChart from "./RentalsOverTimeChart";
-import DailySalesChart from "./DailySalesChart";
+import RentalsByGenreChart from "@/components/MetricsPage/RentMetrics/RentalsByGenreChart";
+import RentalsOverTimeChart from "@/components/MetricsPage/RentMetrics/RentalsOverTimeChart";
+import DailySalesChart from "@/components/MetricsPage/RentMetrics/DailySalesChart";
 import { ChartTypeRegistry } from "chart.js/auto";
 import { Grid, ButtonGroup, Button, Box } from "@mui/material";
 import SetChartTypeButtonGroup from "@/components/MetricsPage/SetChartTypeButtonGroup";

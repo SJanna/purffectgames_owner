@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import GameRentalsOverTimeChart from "@/components/MetricsPage/GameMetrics/GameRentalsOverTimeChart";
 import MostRentedGamesChart from "@/components/MetricsPage/GameMetrics/MostRentedGamesChart";
-import MostRentedGameByAge from "./MostRentedGameByAge";
+import MostRentedGameByAge from "@/components/MetricsPage/GameMetrics/MostRentedGameByAge";
 import { ChartTypeRegistry } from "chart.js/auto";
 import {
   Grid,

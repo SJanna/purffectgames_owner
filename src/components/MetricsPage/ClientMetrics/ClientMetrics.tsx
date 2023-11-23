@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import CityStateChart from "@/components/MetricsPage/ClientMetrics/CityStateChart";
 import IdTypeChart from "@/components/MetricsPage/ClientMetrics/IdTypeChart";
 import AgeChart from "@/components/MetricsPage/ClientMetrics/AgeChart";
-import MostRentedClientChart from "./MostRentedClientChart";
+import MostRentedClientChart from "@/components/MetricsPage/ClientMetrics/MostRentedClientChart";
 import { ChartTypeRegistry } from "chart.js/auto";
 import { Grid, ButtonGroup, Button, Box, TextField } from "@mui/material";
 import SetChartTypeButtonGroup from "@/components/MetricsPage/SetChartTypeButtonGroup";
