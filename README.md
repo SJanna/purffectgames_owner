@@ -2,6 +2,8 @@
 
 ## Overview
 
+<!-- ![Home](./images/logo.png) -->
+
 Welcome to Purffect Games Owner application, your one-stop solution for managing the basic rental processes of a video game store. This Next.js application, built with TypeScript and Material UI, empowers the owner with essential features to efficiently run the business.
 
 ## Table of Contents
