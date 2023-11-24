@@ -36,12 +36,14 @@ The Rentals page, powered by 'material-react-table,' offers a comprehensive view
 ## Profile
 
 The Profile page enables users to view and edit their information, providing a personalized experience for the owner.
+(Actualy, this page show the information of a random user, because the application doesn't have a authentication system yet)
 
 <!-- ![Profile](./images/profile.png) -->
 
 ## Rent
 
 The Rent page is where the magic happens! Users can select games for rent, calculate rental prices, input customer information (with field validation), and create rental transactions. Upon successful creation, users are redirected to the Purchase Proof page.
+(Also, this page allow the user to edit and create new games, but in the future, this functionality will be moved to a new page)
 
 <!-- ![Rent](./images/rent.png) -->
 
