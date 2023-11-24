@@ -1,36 +1,84 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Purffect Games - Owner
 
-## Getting Started
+## Overview
 
-First, run the development server:
+Welcome to Purffect Games Owner application, your one-stop solution for managing the basic rental processes of a video game store. This Next.js application, built with TypeScript and Material UI, empowers the owner with essential features to efficiently run the business.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Table of Contents
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- [Home](#home)
+- [Clients](#clients)
+- [Rentals](#rentals)
+- [Profile](#profile)
+- [Rent](#rent)
+- [Metrics](#metrics)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Home
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+The Home page provides a warm welcome and quick access to key functionalities. It serves as the starting point for navigating through the application.
 
-## Learn More
+<!-- ![Home](./images/home.png) -->
 
-To learn more about Next.js, take a look at the following resources:
+## Clients
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+The Clients page utilizes 'material-react-table' to facilitate CRUD operations for managing customer information. It allows the owner to store essential customer details for tracking rented games and facilitating reclaiming upon expiration.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+<!-- ![Clients](./images/clients.png) -->
 
-## Deploy on Vercel
+## Rentals
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+The Rentals page, powered by 'material-react-table,' offers a comprehensive view of all rental transactions. Owners can easily monitor and manage ongoing rentals, ensuring a smooth operational process.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+<!-- ![Rentals](./images/rentals.png) -->
+
+## Profile
+
+The Profile page enables users to view and edit their information, providing a personalized experience for the owner.
+
+<!-- ![Profile](./images/profile.png) -->
+
+## Rent
+
+The Rent page is where the magic happens! Users can select games for rent, calculate rental prices, input customer information (with field validation), and create rental transactions. Upon successful creation, users are redirected to the Purchase Proof page.
+
+<!-- ![Rent](./images/rent.png) -->
+
+## Metrics
+
+The Metrics page presents various graphs and data, offering insights into the most rented games, frequent customers, and overall rental trends.
+
+<!-- ![Metrics](./images/metrics.png) -->
+
+## Technologies Used
+
+- **Next.js**: Efficient and scalable React framework for building web applications.
+- **TypeScript**: Adds static typing to JavaScript, enhancing code quality and developer productivity.
+- **Material UI**: A popular React UI framework for creating aesthetically pleasing and consistent user interfaces.
+- **React Query**: Simplifies data fetching and state management, enhancing application performance.
+- **Chart.js**: Enables the creation of dynamic and interactive charts for visualizing metrics.
+- **Material-React-Table**: A powerful table library for React, facilitating the implementation of feature-rich tables.
+
+## How to Use
+
+1. **Clone the Repository:**
+   ```bash
+   git clone https://github.com/SJanna/purffectgames_owner.git
+   ```
+
+2. **Install Dependencies:**
+   ```bash
+   cd purffectgames_owner
+   npm install
+   ```
+
+3. **Run the Application:**
+   ```bash
+   npm run dev
+   ```
+
+4. **Access the Application:**
+   Open your browser and navigate to [http://localhost:3000](http://localhost:3000).
+
+## Additional Information
+
+For any inquiries or support, please contact me [sjannadiaz@gmail.com](mailto:sjanna@gmail.com). We are here to ensure a purrfect gaming experience for you and your customers!
