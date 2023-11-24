@@ -31,7 +31,7 @@ const CityStateChart = ({ chartType, clients }: cityStateChartProps) => {
       labels: Object.keys(citiesStatesCounts),
       datasets: [
         {
-          label: "Distribución por ciudad y estado",
+          label: "City/State Distribution",
           data: Object.values(citiesStatesCounts),
           backgroundColor: [
             "rgba(255, 99, 132, 0.5)",

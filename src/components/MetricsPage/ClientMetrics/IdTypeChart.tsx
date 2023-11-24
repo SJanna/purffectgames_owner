@@ -31,7 +31,7 @@ const IdTypeChart = ({ chartType, clients }: idTypeChartProps) => {
       labels: Object.keys(identificationTypeCounts),
       datasets: [
         {
-          label: "Distribución por tipo de identificación",
+          label: "Identification Type Distribution",
           data: Object.values(identificationTypeCounts),
           backgroundColor: [
             "rgba(255, 99, 132, 0.5)",

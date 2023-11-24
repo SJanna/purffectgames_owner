@@ -1,11 +1,11 @@
-import { Client } from "@/types/Client";
+import { Rental } from "@/types/Rental";
 import React, { useEffect, useState } from "react";
 
-const apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL + "/api/clients/";
+const apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL + "/api/rentals/";
 
-export const getUser = async (id: number) => {
+export const getRent = async (rentId:number) => {
   try {
-    const response = await fetch(`${apiUrl + id}/`);
+    const response = await fetch(`${apiUrl+rentId}/`);
 
     if (!response.ok) {
       throw new Error(`Error al realizar la solicitud: ${response.statusText}`);
@@ -15,27 +15,26 @@ export const getUser = async (id: number) => {
     return data;
   } catch (error) {
     console.error("Error fetching data:", error);
-    // throw error;
-    return undefined;
+    throw error;
   }
 };
 
-export const useGetClient = (id: number) => {
-  const [user, setUser] = useState<Client>();
+export const useGetRent = (rentId:number) => {
+  const [rentals, setRentals] = useState<Rental>();
 
   useEffect(() => {
     const fetchDataAsync = async () => {
       try {
-        const result = await getUser(id);
-        setUser(result);
+        const result = await getRent(rentId);
+        setRentals(result);
+        // console.log(result);
       } catch (error) {
         console.error("Error fetching data:", error);
-        setUser(undefined);
       }
     };
 
     fetchDataAsync();
-  }, [id]);
+  }, []);
 
-  return user;
+  return rentals;
 };

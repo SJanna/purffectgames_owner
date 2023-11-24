@@ -60,10 +60,10 @@ export default function ClientMetrics({
               ID Type
             </Button>
             <Button
-              onClick={() => setMetric("most_rented")}
-              disabled={metric === "most_rented"}
+              onClick={() => setMetric("most_rentals")}
+              disabled={metric === "most_rentals"}
             >
-              Most Rented
+              Most Rentals
             </Button>
           </ButtonGroup>
         </Grid>
@@ -98,10 +98,10 @@ export default function ClientMetrics({
               clients={clients}
             />
           )}
-          {metric === "most_rented" && (
+          {metric === "most_rentals" && (
             <React.Fragment>
               <TextField
-                label="Top Clientes"
+                label="Top Clients Count"
                 type="number"
                 value={topClientsCount}
                 size="small"

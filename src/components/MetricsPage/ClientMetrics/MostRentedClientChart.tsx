@@ -49,7 +49,7 @@ const MostRentedClientChart = ({
       }),
       datasets: [
         {
-          label: `Top ${topClientsCount} clientes con más rentas`,
+          label: `Top ${topClientsCount} Clients with most rentals`,
           data: topClients.map(
             (clientId: string) => mostRentedClients[Number(clientId)]
           ),

@@ -26,7 +26,7 @@ export default function Metrics() {
   theme = responsiveFontSizes(theme);
 
   const [renderCount, setRenderCount] = useState(0);
-  const prevWindowWidth = useRef(window.innerWidth);
+  const prevWindowWidth = useRef(0);
 
   useEffect(() => {
     const handleResize = () => {

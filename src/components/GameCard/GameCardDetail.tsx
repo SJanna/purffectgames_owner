@@ -27,8 +27,8 @@ const GameCardDetail = React.memo(({game}: GameCardDetailsProps) => {
           blurDataURL="/static/images/placeholder.png"
         />
       </CardActionArea>
-      <CardContent sx={{ justifyContent: "center" }}>
-        <Typography gutterBottom variant="h5" component="div">
+      <CardContent sx={{ justifyContent: "center"}}>
+        <Typography gutterBottom variant="h5" component="div" textAlign="left" >
           {game.title}
         </Typography>
         <Grid container spacing={1} justifyContent="center" textAlign="left">

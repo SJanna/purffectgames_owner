@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Grid,
@@ -41,10 +41,25 @@ type ClientFormProps = {
       zip: string;
     }>
   >;
+  errors: {
+    first_name: string;
+    last_name: string;
+    identification_type: string;
+    identification_number: string;
+    phone: string;
+    email: string;
+    birth_date: string;
+    address: string;
+    city: string;
+    state: string;
+    zip: string;
+  };
 };
 
 const ClientForm = React.memo(
-  ({ clientInfo, setClientInfo }: ClientFormProps) => {
+  ({ clientInfo, setClientInfo, errors }: ClientFormProps) => {
+    
+
     return (
       <Box sx={{ bgcolor: "background.paper" }}>
         <Box sx={{ my: 2 }}>
@@ -66,6 +81,8 @@ const ClientForm = React.memo(
               onChange={(e) =>
                 setClientInfo({ ...clientInfo, email: e.target.value })
               }
+              error={errors.email ? true : false}
+              helperText={errors.email}
             />
           </Grid>
         </Grid>
@@ -82,6 +99,8 @@ const ClientForm = React.memo(
               onChange={(e) =>
                 setClientInfo({ ...clientInfo, first_name: e.target.value })
               }
+              error={errors.first_name ? true : false}
+              helperText={errors.first_name}
             />
           </Grid>
           <Grid item xs={12} sm={6} md={6} lg={6}>
@@ -95,6 +114,8 @@ const ClientForm = React.memo(
               onChange={(e) =>
                 setClientInfo({ ...clientInfo, last_name: e.target.value })
               }
+              error={errors.last_name ? true : false}
+              helperText={errors.last_name}
             />
           </Grid>
         </Grid>
@@ -111,13 +132,21 @@ const ClientForm = React.memo(
               onChange={(e) =>
                 setClientInfo({ ...clientInfo, phone: e.target.value })
               }
+              error={errors.phone ? true : false}
+              helperText={errors.phone}
             />
           </Grid>
           <Grid item xs={4} sm={4} md={2} lg={4}>
             <DatePicker
               label="Birth Date"
               value={clientInfo.birth_date}
-              slotProps={{ textField: { size: "small", variant: "standard" } }}
+              slotProps={{
+                textField: {
+                  size: "small",
+                  variant: "standard",
+                  error: errors.birth_date ? true : false,
+                },
+              }}
               onChange={(newValue) => {
                 if (newValue) {
                   setClientInfo({ ...clientInfo, birth_date: newValue });
@@ -142,7 +171,7 @@ const ClientForm = React.memo(
                   identification_type: e.target.value,
                 })
               }
-              defaultValue="passport"
+              error={errors.identification_type ? true : false}
             >
               <MenuItem key="Passport" value="Passport">
                 Passport
@@ -155,7 +184,7 @@ const ClientForm = React.memo(
               </MenuItem>
             </Select>
           </Grid>
-          <Grid item xs={12} sm={7} md={7} lg={7}>
+          <Grid item xs={12} sm={9} md={9} lg={9}>
             <TextField
               fullWidth
               id="idNumber"
@@ -169,6 +198,8 @@ const ClientForm = React.memo(
                   identification_number: e.target.value,
                 })
               }
+              error={errors.identification_number ? true : false}
+              helperText={errors.identification_number}
             />
           </Grid>
         </Grid>
@@ -186,6 +217,8 @@ const ClientForm = React.memo(
               onChange={(e) =>
                 setClientInfo({ ...clientInfo, address: e.target.value })
               }
+              error={errors.address ? true : false}
+              helperText={errors.address}
             />
           </Grid>
           <Grid item xs={12} sm={4} md={4} lg={4}>
@@ -212,6 +245,8 @@ const ClientForm = React.memo(
               onChange={(e) =>
                 setClientInfo({ ...clientInfo, city: e.target.value })
               }
+              error={errors.city ? true : false}
+              helperText={errors.city}
             />
           </Grid>
           <Grid item xs={12} sm={3} md={3} lg={3}>
@@ -225,6 +260,8 @@ const ClientForm = React.memo(
               onChange={(e) =>
                 setClientInfo({ ...clientInfo, state: e.target.value })
               }
+              error={errors.state ? true : false}
+              helperText={errors.state}
             />
           </Grid>
           <Grid item xs={12} sm={3} md={3} lg={3}>
@@ -238,6 +275,8 @@ const ClientForm = React.memo(
               onChange={(e) =>
                 setClientInfo({ ...clientInfo, zip: e.target.value })
               }
+              error={errors.zip ? true : false}
+              helperText={errors.zip}
             />
           </Grid>
         </Grid>

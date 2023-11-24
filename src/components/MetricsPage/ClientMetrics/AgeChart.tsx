@@ -41,7 +41,7 @@ const AgeChart = ({ chartType, clients }: ageChartProps) => {
       labels: Object.keys(ageCounts),
       datasets: [
         {
-          label: "Distribución por rango de edad",
+          label: "Age Ranges Distribution",
           data: Object.values(ageCounts),
           backgroundColor: [
             "rgba(255, 99, 132, 0.5)",

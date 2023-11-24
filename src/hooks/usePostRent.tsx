@@ -26,20 +26,26 @@ const apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL + "/api/create_rental/"; // 
 
 function useCreateRental() {
   const queryClient = useQueryClient();
+
+  const createRental = async (rental: NewRental) => {
+    const response = await fetch(apiUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(rental),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error creating rental: ${response.statusText}`);
+    }
+
+    return response.json();
+  };
+
   return useMutation({
-    mutationFn: async (rental: NewRental) => {
-      // console.log(rental);
-      // Enviar la solicitud de actualización de la API aquí
-      await fetch(apiUrl, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(rental),
-      });
-      // console.log("renta creada", rental);
-    },
-    onSettled: () => queryClient.invalidateQueries({ queryKey: ["rentals"] }), // Volver a cargar las rentas después de la mutación
+    mutationFn: createRental,
+    onSettled: () => queryClient.invalidateQueries({ queryKey: ["rentals"] }),
   });
 }
 
