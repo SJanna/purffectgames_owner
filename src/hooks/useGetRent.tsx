@@ -34,7 +34,7 @@ export const useGetRent = (rentId:number) => {
     };
 
     fetchDataAsync();
-  }, []);
+  }, [rentId]);
 
   return rentals;
 };

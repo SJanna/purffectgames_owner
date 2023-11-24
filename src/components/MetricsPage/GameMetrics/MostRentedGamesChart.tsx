@@ -1,9 +1,10 @@
-// pages/game-metrics/PopularGamesChart.tsx
 import React, { useEffect, useRef } from "react";
 import Chart, { ChartTypeRegistry } from "chart.js/auto";
 import { ChartConfiguration } from "chart.js/auto";
 import { Game } from "@/types/Game";
 
+
+// CORREGIR LÓGICA DE FILTRADO DE JUEGOS MÁS RENTADOS
 type PopularGamesChartProps = {
   chartType: keyof ChartTypeRegistry;
   topGamesCount: number;

@@ -17,7 +17,7 @@ type ValidatorProps = {
   };
 };
 
-export default function validator({ clientInfo }: ValidatorProps) {
+export default function Validator({ clientInfo }: ValidatorProps) {
   const [errors, setErrors] = useState({
     email: "",
     first_name: "",

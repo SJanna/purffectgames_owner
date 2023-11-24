@@ -34,7 +34,7 @@ const CartDetails = React.memo(
       setTotal(
         newCartItems.reduce((acc, cartItem) => acc + cartItem.price * cartItem.quantity, 0)
       );
-    }, [newCartItems]);
+    }, [newCartItems, setTotal]);
 
     return (
       <React.Fragment>

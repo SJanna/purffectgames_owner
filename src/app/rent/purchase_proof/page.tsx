@@ -11,10 +11,10 @@ import { Rental } from "@/types/Rental";
 const PurchaseProof = () => {
   const searchParams = useSearchParams();
   const rentId = searchParams.get("rentId");
-  const rent = rentId ? useGetRent(Number(rentId)) : null;
+  const rent = useGetRent(Number(rentId) || 0);
 
   const clientId = rent?.client;
-  const client = useGetClient(clientId || 10);
+  const client = useGetClient(clientId || 0);
 
   const handlePrint = () => {
     // Print only the element with id="purchase-proof" center the content and print it
@@ -22,8 +22,10 @@ const PurchaseProof = () => {
     const originalContents = document.body.innerHTML;
     if (printContents) {
       document.body.innerHTML = printContents;
+      var tempTitle = document.title;
       window.print();
       document.body.innerHTML = originalContents;
+
     }
   };
 
@@ -94,6 +96,9 @@ const PurchaseProof = () => {
           <Grid item xs={12}>
             <Typography variant="body1">{client.email}</Typography>
           </Grid>
+          <Grid item xs={12}>
+            <Typography variant="body1">{client.identification_type}-{client.identification_number}</Typography>
+          </Grid>
         </Grid>
         <Divider sx={{ my: 2, height: "2px" }} />
         <Grid container spacing={2} direction="column" alignItems="center">
@@ -102,12 +107,12 @@ const PurchaseProof = () => {
           </Grid>
           <Grid item xs={12}>
             <Typography variant="body1">
-              Purchase Date: {rent.rental_date.toLocaleString()}
+              Purchase Date: {rent.rental_date.toLocaleString().split("T")[0]}
             </Typography>
           </Grid>
           <Grid item xs={12}>
             <Typography variant="body1">
-              Rent Dateline: {rent.rental_deadline.toLocaleString()}
+              Rent Dateline: {rent.rental_deadline.toLocaleString().split("T")[0]}
             </Typography>
           </Grid>
         </Grid>
@@ -118,7 +123,7 @@ const PurchaseProof = () => {
           </Grid>
           <Grid container spacing={2} direction="row" alignItems="center">
             {rent.games.map((game) => (
-              <>
+              <React.Fragment key={game.id}>
                 <Grid item xs={5} justifyContent="right" display="flex">
                   <Avatar variant="rounded">
                     <Image
@@ -132,7 +137,7 @@ const PurchaseProof = () => {
                 <Grid item xs={7}>
                   <Typography variant="body1">{game.title}</Typography>
                 </Grid>
-              </>
+              </React.Fragment>
             ))}
           </Grid>
         </Grid>

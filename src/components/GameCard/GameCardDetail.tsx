@@ -131,4 +131,5 @@ const GameCardDetail = React.memo(({game}: GameCardDetailsProps) => {
   );
 });
 
+GameCardDetail.displayName = "GameCardDetail";
 export default GameCardDetail;

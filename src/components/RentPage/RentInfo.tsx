@@ -5,7 +5,7 @@ import { Box, Grid, Button } from "@mui/material";
 import { Game } from "@/types/Game";
 import usePostRent from "@/hooks/usePostRent";
 import dayjs from "dayjs";
-import validator from "@/components/RentPage/utils/validateClientForm";
+import Validator from "@/components/RentPage/utils/validateClientForm";
 import { useRouter } from "next/navigation";
 import { usePathname, useSearchParams } from 'next/navigation'
 
@@ -40,7 +40,7 @@ const RentInfo = React.memo(({ cartItems }: RentInfoProps) => {
   const [total, setTotal] = useState(0);
   const [deadline, setDeadline] = useState(dayjs()); // Declare the 'deadline' variable
 
-  const { validate, errors } = validator({ clientInfo });
+  const { validate, errors } = Validator({ clientInfo });
   const router = useRouter();
 
   const handleSubmit = async () => {
