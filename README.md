@@ -2,7 +2,8 @@
 
 ## Overview
 
-<!-- ![Home](./images/logo.png) -->
+<p align="center"><img src="https://github.com/SJanna/purffectgames_owner/assets/70728090/bcd222c2-dd6c-40ae-98b9-8ef05570e1b0" alt="Purffectgames Logo" width="200" height="200"></p>
+
 
 Welcome to Purffect Games Owner application, your one-stop solution for managing the basic rental processes of a video game store. This Next.js application, built with TypeScript and Material UI, empowers the owner with essential features to efficiently run the business.
 
